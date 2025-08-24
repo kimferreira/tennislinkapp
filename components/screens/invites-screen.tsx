@@ -76,7 +76,7 @@ export default function InvitesScreen() {
     },
   ]
 
-  const availablePlayers = [
+  const suggestedInvites = [
     {
       id: 1,
       name: "Carlos Silva",
@@ -109,22 +109,49 @@ export default function InvitesScreen() {
     },
   ]
 
+  const availablePlayers = [
+    {
+      id: 4,
+      name: "Lucas Oliveira",
+      location: "São José dos Campos, SP",
+      rating: "4.1",
+      age: "26",
+      ranking: "1220",
+      bio: "Jogador dedicado, treina regularmente. Busca parceiros para melhorar o jogo.",
+      preferences: "Simples",
+    },
+    {
+      id: 5,
+      name: "Juliana Ferreira",
+      location: "São José dos Campos, SP",
+      rating: "4.3",
+      age: "29",
+      ranking: "1080",
+      bio: "Competidora experiente, gosta de desafios. Disponível para jogos técnicos.",
+      preferences: "Simples, Duplas",
+    },
+  ]
+
   const filteredPlayers = availablePlayers.filter((player) =>
     player.name.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
   const handleSendInvite = () => {
-    // Lógica para enviar convite
     console.log("Convite enviado:", { player: selectedPlayer, ...inviteForm })
     setShowInviteModal(false)
     setSelectedPlayer(null)
     setInviteForm({ date: "", time: "", location: "", gameMode: "singles", activeDays: 4 })
   }
 
+  const handleRemoveSuggestion = (playerId: number) => {
+    console.log("Removendo sugestão:", playerId)
+    // Aqui seria implementada a lógica para remover a sugestão
+  }
+
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
+    <div className="max-w-6xl mx-auto px-4 py-6 pb-20">
       {/* Lista de convites */}
-      <div className="bg-[linear-gradient(135deg,var(--tl-verde),var(--tl-ciano))] rounded-3xl p-6 mb-6">
+      <div className="bg-[linear-gradient(135deg,rgba(0,99,166,.8),rgba(0,169,224,.8),rgba(0,200,187,.8))] rounded-3xl p-6 mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
@@ -204,6 +231,52 @@ export default function InvitesScreen() {
         )}
       </div>
 
+      <div className="mb-8">
+        <h2 className="text-xl font-bold mb-4">Sugestões de Convites</h2>
+        <div className="space-y-3">
+          {suggestedInvites.map((player) => (
+            <div key={player.id} className="card p-4 shadow-soft">
+              <div className="flex items-start gap-4">
+                <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-8 h-8 text-white/80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5m-7 9a7 7 0 0 1 14 0z" />
+                  </svg>
+                </div>
+
+                <div className="flex-1">
+                  <h3 className="font-bold text-lg text-tl">{player.name}</h3>
+                  <p className="text-sm text-white/70 mb-1">{player.location}</p>
+                  <p className="text-sm text-white/70 mb-2">
+                    Rating: {player.rating} | Idade: {player.age} | Ranking: {player.ranking}
+                  </p>
+                  <p className="text-sm text-white/60 mb-2">{player.bio}</p>
+                  <p className="text-xs text-tl-verde">Preferências: {player.preferences}</p>
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      setSelectedPlayer(player)
+                      setShowInviteModal(true)
+                    }}
+                    className="btn bg-tl-verde text-white text-sm px-4 py-2 rounded-full font-semibold hover:opacity-90 transition-opacity"
+                  >
+                    Convidar
+                  </button>
+                  <button
+                    onClick={() => handleRemoveSuggestion(player.id)}
+                    className="btn bg-red-500 text-white text-sm px-4 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors"
+                  >
+                    Remover
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Lista de convites */}
       <div className="space-y-4 mb-8">
         {invites.map((invite, index) => (
           <div key={index} className="card p-4 shadow-soft">
@@ -238,7 +311,7 @@ export default function InvitesScreen() {
       </div>
 
       {/* Propostas */}
-      <div className="bg-[linear-gradient(135deg,var(--tl-verde),var(--tl-ciano))] rounded-3xl p-6 mb-6">
+      <div className="bg-[linear-gradient(135deg,rgba(0,99,166,.8),rgba(0,169,224,.8),rgba(0,200,187,.8))] rounded-3xl p-6 mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
@@ -260,6 +333,7 @@ export default function InvitesScreen() {
         </div>
       </div>
 
+      {/* Propostas */}
       <div className="space-y-4">
         {proposals.map((proposal, index) => (
           <div key={index} className="card p-4 shadow-soft">
@@ -293,6 +367,7 @@ export default function InvitesScreen() {
         ))}
       </div>
 
+      {/* Modal de envio de convite */}
       {showInviteModal && selectedPlayer && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-[#101a2b] rounded-2xl p-6 w-full max-w-md">

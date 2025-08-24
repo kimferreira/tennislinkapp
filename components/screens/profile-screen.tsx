@@ -1,20 +1,10 @@
 "use client"
-
-import type React from "react"
-
 import { useState } from "react"
 
 export default function ProfileScreen() {
   const [activeTab, setActiveTab] = useState("visao-geral")
-  const [showPublishModal, setShowPublishModal] = useState(false)
   const [showUpgradeModal, setShowUpgradeModal] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState("")
-  const [publishForm, setPublishForm] = useState({
-    opponent: "",
-    score: "",
-    photos: [] as File[],
-    description: "",
-  })
 
   const tabs = [
     { id: "visao-geral", label: "Visão Geral" },
@@ -23,16 +13,9 @@ export default function ProfileScreen() {
     { id: "eventos", label: "Eventos" },
   ]
 
-  const matchedOpponents = [
-    { id: 1, name: "Davi Campos Ranieri", atn: "12.5" },
-    { id: 2, name: "Tullius Silva", atn: "11.8" },
-    { id: 3, name: "Marina Costa", atn: "13.2" },
-    { id: 4, name: "João Santos", atn: "10.9" },
-  ]
-
   const recentMatches = [
-    { opponent: "Davi Campos Ranieri", score: "6 4 10", date: "__/__/____" },
-    { opponent: "Davi Campos Ranieri", score: "4 6 8", date: "__/__/____" },
+    { opponent: "Davi Campos Ranieri", score: "6 4 10", date: "15/12/2024" },
+    { opponent: "Davi Campos Ranieri", score: "4 6 8", date: "12/12/2024" },
   ]
 
   const events = [
@@ -40,13 +23,13 @@ export default function ProfileScreen() {
       title: "ETAPA 24 - CSA CIRCUITO ROBIN SODERLING TENNS TOUR BRASIL...",
       location: "São José dos Campos, São Paulo, Brasil",
       details: "R$ 3.0k Premiação • 30 Jogadores • ATN 1.0 - 100.00 • Simples/duplas • Saibro",
-      date: "__/__/____",
+      date: "20/01/2025",
     },
     {
       title: "ETAPA 24 - CSA CIRCUITO ROBIN SODERLING TENNS TOUR BRASIL...",
       location: "São José dos Campos, São Paulo, Brasil",
       details: "R$ 3.0k Premiação • 30 Jogadores • ATN 1.0 - 100.00 • Simples/duplas • Saibro",
-      date: "__/__/____",
+      date: "25/01/2025",
     },
   ]
 
@@ -56,28 +39,6 @@ export default function ProfileScreen() {
     { id: "ouro", name: "Ouro", color: "text-yellow-500", diamonds: 3, price: "R$ 59,90/mês" },
     { id: "diamante", name: "Diamante", color: "text-blue-400", diamonds: 4, price: "R$ 99,90/mês" },
   ]
-
-  const currentPlan = "gratis" // Plano atual do usuário
-
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || [])
-    setPublishForm((prev) => ({ ...prev, photos: [...prev.photos, ...files] }))
-  }
-
-  const handlePublishResult = () => {
-    if (!publishForm.opponent || !publishForm.score) {
-      alert("Por favor, selecione um oponente e insira o placar.")
-      return
-    }
-
-    // Aqui seria feita a integração com a API
-    console.log("Publicando resultado:", publishForm)
-
-    // Reset form and close modal
-    setPublishForm({ opponent: "", score: "", photos: [], description: "" })
-    setShowPublishModal(false)
-    alert("Resultado publicado com sucesso!")
-  }
 
   const handleUpgrade = () => {
     if (!selectedPlan) {
@@ -96,62 +57,64 @@ export default function ProfileScreen() {
       case "visao-geral":
         return (
           <div className="space-y-4">
-            <div className="flex justify-end mb-3">
-              <button
-                onClick={() => setShowPublishModal(true)}
-                className="btn bg-tl-verde text-black px-3 py-2 rounded-full font-semibold flex items-center gap-2 text-sm"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-4 h-4">
-                  <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                </svg>
-                Publicar Resultado
-              </button>
+            <div className="card p-3">
+              <h3 className="font-bold text-base mb-3">Estatísticas Principais:</h3>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="glass rounded-xl p-3">
+                  <div className="text-white/60 mb-1">Vitórias</div>
+                  <div className="text-xl font-bold text-tl-verde">24</div>
+                </div>
+                <div className="glass rounded-xl p-3">
+                  <div className="text-white/60 mb-1">Derrotas</div>
+                  <div className="text-xl font-bold text-red-400">16</div>
+                </div>
+                <div className="glass rounded-xl p-3">
+                  <div className="text-white/60 mb-1">Win Rate</div>
+                  <div className="text-xl font-bold text-tl-ciano">60%</div>
+                </div>
+                <div className="glass rounded-xl p-3">
+                  <div className="text-white/60 mb-1">Jogos este mês</div>
+                  <div className="text-xl font-bold text-white">8</div>
+                </div>
+              </div>
             </div>
 
             <div className="card p-3">
-              <h3 className="font-bold text-base mb-3">Meu desempenho:</h3>
-              <div className="space-y-3">
-                <div className="glass rounded-xl p-3">
-                  <div className="text-sm text-white/60 mb-2">Ranking:</div>
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="flex justify-between">
-                      <span>Cidade:</span>
-                      <span className="text-tl-verde">xxxxx</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Estado:</span>
-                      <span className="text-tl-verde">xxxxx</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>País:</span>
-                      <span className="text-tl-verde">xxxxx</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Mundo:</span>
-                      <span className="text-tl-verde">xxxxx</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="glass rounded-xl p-3">
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="flex justify-between">
-                      <span>Total de jogos:</span>
-                      <span className="text-tl-verde">xxxxx</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Vitórias/Derrotas:</span>
-                      <span className="text-tl-verde">xxxxx</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Games jogados:</span>
-                      <span className="text-tl-verde">xxxxx</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Saldo de games:</span>
-                      <span className="text-tl-verde">xxxxx</span>
+              <h3 className="font-bold text-base mb-3">Resultados Recentes:</h3>
+              <div className="space-y-2">
+                {recentMatches.slice(0, 3).map((match, index) => (
+                  <div key={index} className="glass rounded-xl p-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="font-semibold text-sm">{match.opponent}</div>
+                        <div className="text-xs text-white/60">{match.date}</div>
+                      </div>
+                      <div className="flex gap-1">
+                        {match.score.split(" ").map((score, i) => (
+                          <div
+                            key={i}
+                            className="w-6 h-6 border border-tl-verde rounded flex items-center justify-center text-xs"
+                          >
+                            {score}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="card p-3">
+              <h3 className="font-bold text-base mb-3">Eventos Recentes:</h3>
+              <div className="space-y-2">
+                {events.slice(0, 2).map((event, index) => (
+                  <div key={index} className="glass rounded-xl p-3">
+                    <div className="text-xs text-white/60 mb-1">{event.date}</div>
+                    <h4 className="font-semibold text-sm mb-1">{event.title.substring(0, 40)}...</h4>
+                    <p className="text-xs text-white/70">{event.location}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -171,13 +134,7 @@ export default function ProfileScreen() {
             {recentMatches.map((match, index) => (
               <div key={index} className="card p-3">
                 <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <div className="text-xs text-white/60">{match.date}</div>
-                    <div className="flex items-center gap-1">
-                      <span className="text-xs">🇧🇷</span>
-                      <span className="text-xs font-medium">{match.opponent}</span>
-                    </div>
-                  </div>
+                  <div className="text-xs text-white/60">{match.date}</div>
                   <div className="flex gap-1">
                     {match.score.split(" ").map((score, i) => (
                       <div
@@ -189,7 +146,11 @@ export default function ProfileScreen() {
                     ))}
                   </div>
                 </div>
-                <div className="border-t border-white/10 pt-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs">🇧🇷</span>
+                  <span className="text-xs font-medium">{match.opponent}</span>
+                </div>
+                <div className="border-t border-white/10 pt-2 mt-2">
                   <div className="flex items-center justify-between text-xs text-white/60">
                     <span>🇧🇷 {match.opponent}</span>
                     <div className="flex gap-1">
@@ -207,6 +168,8 @@ export default function ProfileScreen() {
         return (
           <div className="space-y-4">
             <div className="text-base font-bold">Estatísticas:</div>
+
+            {/* Gráfico de vitórias/derrotas */}
             <div className="flex justify-center">
               <div className="relative w-40 h-40">
                 <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
@@ -236,6 +199,8 @@ export default function ProfileScreen() {
                 </div>
               </div>
             </div>
+
+            {/* Gráfico ATN/tempo */}
             <div className="card p-3">
               <h4 className="font-bold mb-3 text-sm">ATN/ tempo</h4>
               <div className="h-24 flex items-end justify-between">
@@ -247,6 +212,33 @@ export default function ProfileScreen() {
                 ))}
               </div>
               <div className="text-center text-xs mt-2">Tempo</div>
+            </div>
+
+            {/* Estatísticas detalhadas */}
+            <div className="card p-3">
+              <h4 className="font-bold mb-3 text-sm">Estatísticas Detalhadas</h4>
+              <div className="space-y-3">
+                <div className="glass rounded-xl p-3">
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="flex justify-between">
+                      <span>Total de jogos:</span>
+                      <span className="text-tl-verde">40</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Vitórias/Derrotas:</span>
+                      <span className="text-tl-verde">24/16</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Games jogados:</span>
+                      <span className="text-tl-verde">248</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Saldo de games:</span>
+                      <span className="text-tl-verde">+32</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )
@@ -282,11 +274,6 @@ export default function ProfileScreen() {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <img src="/images/tennis-link-logo.png" alt="Tennis Link" className="h-16 w-auto" />
-              <div className="relative">
-                
-                
-                
-              </div>
             </div>
 
             <div className="flex-1 mx-4">
@@ -323,11 +310,11 @@ export default function ProfileScreen() {
               <p className="text-white/70 text-sm">Idade: xx • Ranking: xxxx • Sexo: xxxxxxxxx</p>
               <div className="flex gap-4 mt-2">
                 <div>
-                  <div className="text-sm font-semibold">ATN ♂</div>
+                  <div className="text-sm font-semibold">ATN 👤</div>
                   <div className="text-2xl font-extrabold">XX.XX</div>
                 </div>
                 <div>
-                  <div className="text-sm font-semibold">ATN ♂♂</div>
+                  <div className="text-sm font-semibold">ATN 👥</div>
                   <div className="text-2xl font-extrabold">XX.XX</div>
                 </div>
               </div>
@@ -351,23 +338,6 @@ export default function ProfileScreen() {
             >
               Fazer Upgrade
             </button>
-          </div>
-
-          <div className="flex items-center justify-between py-4 border-t border-white/10 border-b text-sm">
-            <div className="flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-4 h-4">
-                <path
-                  fill="currentColor"
-                  d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81c1.66 0 3-1.34 3-3s-1.34-3-3-3s-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65c0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92"
-                />
-              </svg>
-              <span>Compartilhar perfil</span>
-            </div>
-            <span className="text-tl-ciano">Fale conosco</span>
-          </div>
-
-          <div className="py-8 text-center border-b border-white/10">
-            <h3 className="text-2xl font-bold">Anuncio</h3>
           </div>
 
           <div className="border-b border-white/10 flex gap-6 text-sm mt-6 overflow-x-auto">
@@ -438,87 +408,6 @@ export default function ProfileScreen() {
               <button onClick={handleUpgrade} className="flex-1 btn bg-tl-verde text-black font-semibold text-sm">
                 Confirmar
               </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showPublishModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="card max-w-md w-full p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold">Publicar Resultado</h3>
-              <button onClick={() => setShowPublishModal(false)} className="text-white/60 hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
-                  <path
-                    fill="currentColor"
-                    d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41z"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">Oponente *</label>
-                <select
-                  value={publishForm.opponent}
-                  onChange={(e) => setPublishForm((prev) => ({ ...prev, opponent: e.target.value }))}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm outline-none"
-                >
-                  <option value="">Selecione um oponente que você enfrentou</option>
-                  {matchedOpponents.map((opponent) => (
-                    <option key={opponent.id} value={opponent.name} className="bg-gray-800">
-                      {opponent.name} (ATN {opponent.atn})
-                    </option>
-                  ))}
-                </select>
-                <p className="text-xs text-white/60 mt-1">Apenas oponentes com matching confirmado no app</p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">Placar *</label>
-                <input
-                  type="text"
-                  placeholder="Ex: 6-4, 7-5 ou 6-3, 4-6, 6-2"
-                  value={publishForm.score}
-                  onChange={(e) => setPublishForm((prev) => ({ ...prev, score: e.target.value }))}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">Fotos do jogo</label>
-                <input
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={handlePhotoUpload}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm outline-none"
-                />
-                {publishForm.photos.length > 0 && (
-                  <p className="text-xs text-tl-verde mt-1">{publishForm.photos.length} foto(s) selecionada(s)</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">Descrição</label>
-                <textarea
-                  placeholder="Conte como foi o jogo..."
-                  value={publishForm.description}
-                  onChange={(e) => setPublishForm((prev) => ({ ...prev, description: e.target.value }))}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm outline-none h-20 resize-none"
-                />
-              </div>
-
-              <div className="flex gap-3 pt-4">
-                <button onClick={() => setShowPublishModal(false)} className="flex-1 btn btn-outline">
-                  Cancelar
-                </button>
-                <button onClick={handlePublishResult} className="flex-1 btn bg-tl-verde text-black font-semibold">
-                  Publicar
-                </button>
-              </div>
             </div>
           </div>
         </div>

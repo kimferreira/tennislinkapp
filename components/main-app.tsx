@@ -7,6 +7,7 @@ import ChallengesScreen from "@/components/screens/challenges-screen"
 import RankingScreen from "@/components/screens/ranking-screen"
 import InvitesScreen from "@/components/screens/invites-screen"
 import ProfileScreen from "@/components/screens/profile-screen"
+import JogosMarcadosScreen from "@/components/screens/jogos-marcados-screen"
 
 export default function MainApp() {
   const [activeTab, setActiveTab] = useState("inicio")
@@ -19,6 +20,8 @@ export default function MainApp() {
         return <ChallengesScreen />
       case "ranking":
         return <RankingScreen />
+      case "jogos-marcados":
+        return <JogosMarcadosScreen />
       case "convidar":
         return <InvitesScreen />
       case "perfil":
