@@ -21,7 +21,7 @@ export default function InvitesScreen() {
       rating: "4.1",
       age: "29",
       ranking: "1180",
-      timeRemaining: "0 dias e 00:00 horas",
+      timeRemaining: "2 dias e 14:30 horas",
     },
     {
       name: "Maria Fernanda Costa",
@@ -29,15 +29,7 @@ export default function InvitesScreen() {
       rating: "4.3",
       age: "26",
       ranking: "1050",
-      timeRemaining: "0 dias e 00:00 horas",
-    },
-    {
-      name: "Ricardo Almeida",
-      location: "São José dos Campos, São Paulo, Brasil",
-      rating: "3.9",
-      age: "31",
-      ranking: "1320",
-      timeRemaining: "0 dias e 00:00 horas",
+      timeRemaining: "1 dia e 08:15 horas",
     },
   ]
 
@@ -48,7 +40,7 @@ export default function InvitesScreen() {
       rating: "4.4",
       age: "27",
       ranking: "920",
-      timeRemaining: "0 dias e 00:00 horas",
+      timeRemaining: "3 dias e 12:45 horas",
     },
     {
       name: "Paulo Roberto",
@@ -56,23 +48,7 @@ export default function InvitesScreen() {
       rating: "4.0",
       age: "33",
       ranking: "1280",
-      timeRemaining: "0 dias e 00:00 horas",
-    },
-    {
-      name: "Ana Carolina",
-      location: "São José dos Campos, São Paulo, Brasil",
-      rating: "4.2",
-      age: "25",
-      ranking: "1100",
-      timeRemaining: "0 dias e 00:00 horas",
-    },
-    {
-      name: "Roberto Silva",
-      location: "São José dos Campos, São Paulo, Brasil",
-      rating: "4.1",
-      age: "30",
-      ranking: "1200",
-      timeRemaining: "0 dias e 00:00 horas",
+      timeRemaining: "2 dias e 06:20 horas",
     },
   ]
 
@@ -96,16 +72,6 @@ export default function InvitesScreen() {
       ranking: "1280",
       bio: "Tenista amadora, busca melhorar técnica. Prefere jogos descontraídos.",
       preferences: "Simples",
-    },
-    {
-      id: 3,
-      name: "Rafael Santos",
-      location: "São José dos Campos, SP",
-      rating: "4.5",
-      age: "32",
-      ranking: "980",
-      bio: "Ex-competidor, agora joga por diversão. Muito técnico e paciente.",
-      preferences: "Simples, Duplas",
     },
   ]
 
@@ -145,12 +111,128 @@ export default function InvitesScreen() {
 
   const handleRemoveSuggestion = (playerId: number) => {
     console.log("Removendo sugestão:", playerId)
-    // Aqui seria implementada a lógica para remover a sugestão
   }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6 pb-20">
       {/* Lista de convites */}
+      <div className="bg-[linear-gradient(135deg,rgba(0,99,166,.8),rgba(0,169,224,.8),rgba(0,200,187,.8))] rounded-3xl p-6 mb-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-6 h-6 text-white">
+                <path
+                  fill="currentColor"
+                  d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 14H4V8l8 5l8-5z"
+                />
+              </svg>
+            </div>
+            <h1 className="text-white text-xl font-extrabold">Lista de convites</h1>
+          </div>
+          <button className="bg-white/20 text-white px-4 py-2 rounded-full flex items-center gap-2 hover:bg-white/30 transition-colors">
+            <span className="text-sm font-medium">Filtros</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
+              <path fill="currentColor" d="M3 4.5h18v2H3zm3 5.5h12v2H6zm3 5.5h6v2H9z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div className="space-y-4 mb-8">
+        {invites.map((invite, index) => (
+          <div key={index} className="card p-4 shadow-soft">
+            <div className="flex items-start gap-4">
+              <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <svg className="w-8 h-8 text-white/80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5m-7 9a7 7 0 0 1 14 0z" />
+                </svg>
+              </div>
+
+              <div className="flex-1">
+                <h3 className="font-bold text-lg text-tl">{invite.name}</h3>
+                <p className="text-sm text-white/70 mb-1">{invite.location}</p>
+                <p className="text-sm text-white/70 mb-2">
+                  Rating: {invite.rating} | Idade: {invite.age} | Ranking: {invite.ranking}
+                </p>
+                <button className="text-tl-verde text-sm hover:underline">Ver mais</button>
+              </div>
+
+              <div className="flex flex-col gap-2 items-end">
+                <div className="bg-tl-verde text-white text-xs px-3 py-2 rounded-full text-center min-w-[120px]">
+                  <div>Tempo restante</div>
+                  <div className="font-semibold">{invite.timeRemaining}</div>
+                </div>
+                <button className="btn bg-red-500 text-white text-sm px-4 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors">
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Propostas */}
+      <div className="bg-[linear-gradient(135deg,rgba(0,99,166,.8),rgba(0,169,224,.8),rgba(0,200,187,.8))] rounded-3xl p-6 mb-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-6 h-6 text-white">
+                <path
+                  fill="currentColor"
+                  d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 14H4V8l8 5l8-5z"
+                />
+              </svg>
+            </div>
+            <h1 className="text-white text-xl font-extrabold">Propostas</h1>
+          </div>
+          <button className="bg-white/20 text-white px-4 py-2 rounded-full flex items-center gap-2 hover:bg-white/30 transition-colors">
+            <span className="text-sm font-medium">Filtros</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
+              <path fill="currentColor" d="M3 4.5h18v2H3zm3 5.5h12v2H6zm3 5.5h6v2H9z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div className="space-y-4 mb-8">
+        {proposals.map((proposal, index) => (
+          <div key={index} className="card p-4 shadow-soft">
+            <div className="flex items-start gap-4">
+              <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <svg className="w-8 h-8 text-white/80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5m-7 9a7 7 0 0 1 14 0z" />
+                </svg>
+              </div>
+
+              <div className="flex-1">
+                <h3 className="font-bold text-lg text-tl">{proposal.name}</h3>
+                <p className="text-sm text-white/70 mb-1">{proposal.location}</p>
+                <p className="text-sm text-white/70 mb-2">
+                  Rating: {proposal.rating} | Idade: {proposal.age} | Ranking: {proposal.ranking}
+                </p>
+                <button className="text-tl-verde text-sm hover:underline">Ver mais</button>
+              </div>
+
+              <div className="flex flex-col gap-2 items-end">
+                <div className="bg-[#F1C40F] text-black text-xs px-3 py-2 rounded-full text-center min-w-[120px]">
+                  <div>Tempo restante</div>
+                  <div className="font-semibold">{proposal.timeRemaining}</div>
+                </div>
+                <div className="flex gap-2">
+                  <button className="btn bg-tl-verde text-white text-sm px-3 py-2 rounded-full font-semibold hover:opacity-90 transition-opacity">
+                    Aceitar
+                  </button>
+                  <button className="btn bg-red-500 text-white text-sm px-3 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors">
+                    Recusar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Sugestões */}
       <div className="bg-[linear-gradient(135deg,rgba(0,99,166,.8),rgba(0,169,224,.8),rgba(0,200,187,.8))] rounded-3xl p-6 mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -162,14 +244,8 @@ export default function InvitesScreen() {
                 />
               </svg>
             </div>
-            <h1 className="text-white text-xl font-extrabold">Lista de convites</h1>
+            <h1 className="text-white text-xl font-extrabold">Sugestões</h1>
           </div>
-          <button className="text-white flex items-center gap-2">
-            <span className="text-sm font-medium">Filtros</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
-              <path fill="currentColor" d="M3 4.5h18v2H3zm3 5.5h12v2H6zm3 5.5h6v2H9z" />
-            </svg>
-          </button>
         </div>
       </div>
 
@@ -231,55 +307,9 @@ export default function InvitesScreen() {
         )}
       </div>
 
-      <div className="mb-8">
-        <h2 className="text-xl font-bold mb-4">Sugestões de Convites</h2>
-        <div className="space-y-3">
-          {suggestedInvites.map((player) => (
-            <div key={player.id} className="card p-4 shadow-soft">
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-8 h-8 text-white/80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5m-7 9a7 7 0 0 1 14 0z" />
-                  </svg>
-                </div>
-
-                <div className="flex-1">
-                  <h3 className="font-bold text-lg text-tl">{player.name}</h3>
-                  <p className="text-sm text-white/70 mb-1">{player.location}</p>
-                  <p className="text-sm text-white/70 mb-2">
-                    Rating: {player.rating} | Idade: {player.age} | Ranking: {player.ranking}
-                  </p>
-                  <p className="text-sm text-white/60 mb-2">{player.bio}</p>
-                  <p className="text-xs text-tl-verde">Preferências: {player.preferences}</p>
-                </div>
-
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => {
-                      setSelectedPlayer(player)
-                      setShowInviteModal(true)
-                    }}
-                    className="btn bg-tl-verde text-white text-sm px-4 py-2 rounded-full font-semibold hover:opacity-90 transition-opacity"
-                  >
-                    Convidar
-                  </button>
-                  <button
-                    onClick={() => handleRemoveSuggestion(player.id)}
-                    className="btn bg-red-500 text-white text-sm px-4 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors"
-                  >
-                    Remover
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Lista de convites */}
-      <div className="space-y-4 mb-8">
-        {invites.map((invite, index) => (
-          <div key={index} className="card p-4 shadow-soft">
+      <div className="space-y-3">
+        {suggestedInvites.map((player) => (
+          <div key={player.id} className="card p-4 shadow-soft">
             <div className="flex items-start gap-4">
               <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
                 <svg className="w-8 h-8 text-white/80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -288,78 +318,30 @@ export default function InvitesScreen() {
               </div>
 
               <div className="flex-1">
-                <h3 className="font-bold text-lg text-tl">{invite.name}</h3>
-                <p className="text-sm text-white/70 mb-1">{invite.location}</p>
+                <h3 className="font-bold text-lg text-tl">{player.name}</h3>
+                <p className="text-sm text-white/70 mb-1">{player.location}</p>
                 <p className="text-sm text-white/70 mb-2">
-                  Rating: {invite.rating} Idade: {invite.age} Ranking: {invite.ranking}
+                  Rating: {player.rating} | Idade: {player.age} | Ranking: {player.ranking}
                 </p>
-                <button className="text-tl-verde text-sm hover:underline">Ver mais</button>
+                <p className="text-sm text-white/60 mb-2">{player.bio}</p>
+                <p className="text-xs text-tl-verde">Preferências: {player.preferences}</p>
               </div>
 
-              <div className="flex flex-col gap-2 items-end">
-                <div className="bg-tl-verde text-white text-xs px-3 py-2 rounded-full text-center min-w-[120px]">
-                  <div>Tempo restante</div>
-                  <div className="font-semibold">{invite.timeRemaining}</div>
-                </div>
-                <button className="btn bg-red-500 text-white text-sm px-4 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors">
-                  Cancelar
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    setSelectedPlayer(player)
+                    setShowInviteModal(true)
+                  }}
+                  className="btn bg-tl-verde text-white text-sm px-4 py-2 rounded-full font-semibold hover:opacity-90 transition-opacity"
+                >
+                  Convidar
                 </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Propostas */}
-      <div className="bg-[linear-gradient(135deg,rgba(0,99,166,.8),rgba(0,169,224,.8),rgba(0,200,187,.8))] rounded-3xl p-6 mb-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-6 h-6 text-white">
-                <path
-                  fill="currentColor"
-                  d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 14H4V8l8 5l8-5z"
-                />
-              </svg>
-            </div>
-            <h1 className="text-white text-xl font-extrabold">Propostas</h1>
-          </div>
-          <button className="text-white flex items-center gap-2">
-            <span className="text-sm font-medium">Filtros</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
-              <path fill="currentColor" d="M3 4.5h18v2H3zm3 5.5h12v2H6zm3 5.5h6v2H9z" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Propostas */}
-      <div className="space-y-4">
-        {proposals.map((proposal, index) => (
-          <div key={index} className="card p-4 shadow-soft">
-            <div className="flex items-start gap-4">
-              <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                <svg className="w-8 h-8 text-white/80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5m-7 9a7 7 0 0 1 14 0z" />
-                </svg>
-              </div>
-
-              <div className="flex-1">
-                <h3 className="font-bold text-lg text-tl">{proposal.name}</h3>
-                <p className="text-sm text-white/70 mb-1">{proposal.location}</p>
-                <p className="text-sm text-white/70 mb-2">
-                  Rating: {proposal.rating} Idade: {proposal.age} Ranking: {proposal.ranking}
-                </p>
-                <button className="text-tl-verde text-sm hover:underline">Ver mais</button>
-              </div>
-
-              <div className="flex flex-col gap-2 items-end">
-                <div className="bg-[#F1C40F] text-black text-xs px-3 py-2 rounded-full text-center min-w-[120px]">
-                  <div>Tempo restante</div>
-                  <div className="font-semibold">{proposal.timeRemaining}</div>
-                </div>
-                <button className="btn bg-tl-verde text-white text-sm px-4 py-2 rounded-full font-semibold hover:opacity-90 transition-opacity">
-                  Ver proposta
+                <button
+                  onClick={() => handleRemoveSuggestion(player.id)}
+                  className="btn bg-red-500 text-white text-sm px-4 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors"
+                >
+                  Remover
                 </button>
               </div>
             </div>
@@ -425,8 +407,8 @@ export default function InvitesScreen() {
                   onChange={(e) => setInviteForm({ ...inviteForm, gameMode: e.target.value })}
                   className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm"
                 >
-                  <option value="singles">Simples</option>
-                  <option value="doubles">Duplas</option>
+                  <option value="singles">👤 Simples</option>
+                  <option value="doubles">👥 Duplas</option>
                 </select>
               </div>
 

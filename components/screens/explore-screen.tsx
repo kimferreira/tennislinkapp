@@ -41,12 +41,10 @@ export default function ExploreScreen() {
 
           <div className="card p-4 text-center hover:scale-[1.02] transition-transform cursor-pointer">
             <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-tl-azul/20 flex items-center justify-center">
-              <svg className="w-6 h-6 text-tl-azul" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M13 2L3 14h7v8l11-12h-7z" />
-              </svg>
+              <img src="/images/ranking-icon.png" alt="Ranking" className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-sm">Desafiar</h3>
-            <p className="text-xs text-white/60 mt-1">Lance um desafio</p>
+            <h3 className="font-bold text-sm">Ver Ranking</h3>
+            <p className="text-xs text-white/60 mt-1">Confira sua posição</p>
           </div>
         </div>
       </section>
@@ -68,7 +66,7 @@ export default function ExploreScreen() {
               <span className="text-2xl">{player.medal}</span>
               <div className="flex-1">
                 <div className="font-semibold text-sm">{player.name}</div>
-                <div className="text-xs text-white/60">ATN {player.atn}</div>
+                <div className="text-xs text-white/60">👤 {player.atn}</div>
               </div>
               <div className="text-right">
                 <div className="text-sm font-bold">#{player.position}</div>
@@ -80,20 +78,30 @@ export default function ExploreScreen() {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-2xl font-extrabold mb-4">Atividade Recente</h2>
-        <div className="space-y-3">
+        <h2 className="text-2xl font-extrabold mb-4">Atividades Recentes</h2>
+        <div className="space-y-2">
           {[
-            { player1: "Davi Campos", player2: "Marina Silva", score: "6-4, 7-5", time: "2h atrás" },
-            { player1: "João Santos", player2: "Carlos Lima", score: "3-6, 6-3, 6-4", time: "4h atrás" },
+            { opponent: "Davi Campos Ranieri", score: "6 4 10", date: "15/12/2024" },
+            { opponent: "Marina Silva", score: "4 6 8", date: "12/12/2024" },
+            { opponent: "João Santos", score: "7 5 12", date: "10/12/2024" },
           ].map((match, index) => (
-            <div key={index} className="card p-3">
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-sm font-semibold">
-                  {match.player1} vs {match.player2}
+            <div key={index} className="glass rounded-xl p-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="font-semibold text-sm">{match.opponent}</div>
+                  <div className="text-xs text-white/60">{match.date}</div>
                 </div>
-                <div className="text-xs text-white/60">{match.time}</div>
+                <div className="flex gap-1">
+                  {match.score.split(" ").map((score, i) => (
+                    <div
+                      key={i}
+                      className="w-6 h-6 border border-tl-verde rounded flex items-center justify-center text-xs"
+                    >
+                      {score}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="text-xs text-tl-verde">Resultado: {match.score}</div>
             </div>
           ))}
         </div>
@@ -106,29 +114,27 @@ export default function ExploreScreen() {
             Ver todos <span>›</span>
           </button>
         </div>
-        <div className="grid grid-cols-1 gap-4">
+        <div className="space-y-2">
           {[
-            { title: "Torneio Regional ATN", date: "15 Jan", participants: "32 jogadores" },
-            { title: "Copa Tennis Link", date: "22 Jan", participants: "64 jogadores" },
+            {
+              title: "ETAPA 24 - CSA CIRCUITO ROBIN SODERLING TENNS TOUR BRASIL...",
+              location: "São José dos Campos, São Paulo, Brasil",
+              details: "R$ 3.0k Premiação • 30 Jogadores • ATN 1.0 - 100.00 • Simples/duplas • Saibro",
+              date: "20/01/2025",
+            },
+            {
+              title: "ETAPA 25 - CSA CIRCUITO ROBIN SODERLING TENNS TOUR BRASIL...",
+              location: "São José dos Campos, São Paulo, Brasil",
+              details: "R$ 5.0k Premiação • 64 Jogadores • ATN 1.0 - 100.00 • Simples/duplas • Saibro",
+              date: "25/01/2025",
+            },
           ].map((event, index) => (
-            <div key={index} className="card p-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-tl-azul/30 to-tl-ciano/30 flex items-center justify-center">
-                  <svg className="w-6 h-6 text-white/60" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                      fill="currentColor"
-                      d="M7 3V1h2v2h6V1h2v2h4a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M3 9v10h18V9H3"
-                    />
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-sm">{event.title}</h3>
-                  <p className="text-xs text-white/60">{event.participants}</p>
-                </div>
-                <div className="text-right">
-                  <div className="text-sm font-semibold text-tl-verde">{event.date}</div>
-                  <button className="text-xs text-tl-ciano hover:underline">Inscrever-se</button>
-                </div>
+            <div key={index} className="card p-3">
+              <div className="text-xs text-white/60 mb-1">{event.date}</div>
+              <h4 className="font-bold text-sm mb-1">{event.title}</h4>
+              <p className="text-xs text-white/70 mb-2">{event.location}</p>
+              <div className="border-t border-[#F1C40F] pt-2">
+                <p className="text-xs text-white/70">{event.details}</p>
               </div>
             </div>
           ))}

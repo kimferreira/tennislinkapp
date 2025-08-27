@@ -14,8 +14,9 @@ export default function ProfileScreen() {
   ]
 
   const recentMatches = [
-    { opponent: "Davi Campos Ranieri", score: "6 4 10", date: "15/12/2024" },
-    { opponent: "Davi Campos Ranieri", score: "4 6 8", date: "12/12/2024" },
+    { opponent: "Davi Campos Ranieri", score: ["6", "4", "10"], date: "15/12/2024" },
+    { opponent: "Marina Silva", score: ["4", "6", "8"], date: "12/12/2024" },
+    { opponent: "João Santos", score: ["7", "5", "12"], date: "10/12/2024" },
   ]
 
   const events = [
@@ -26,9 +27,9 @@ export default function ProfileScreen() {
       date: "20/01/2025",
     },
     {
-      title: "ETAPA 24 - CSA CIRCUITO ROBIN SODERLING TENNS TOUR BRASIL...",
+      title: "ETAPA 25 - CSA CIRCUITO ROBIN SODERLING TENNS TOUR BRASIL...",
       location: "São José dos Campos, São Paulo, Brasil",
-      details: "R$ 3.0k Premiação • 30 Jogadores • ATN 1.0 - 100.00 • Simples/duplas • Saibro",
+      details: "R$ 5.0k Premiação • 64 Jogadores • ATN 1.0 - 100.00 • Simples/duplas • Saibro",
       date: "25/01/2025",
     },
   ]
@@ -52,11 +53,31 @@ export default function ProfileScreen() {
     alert("Upgrade realizado com sucesso!")
   }
 
+  const handleContactSupport = () => {
+    // Simula abertura de chat de suporte ou redirecionamento
+    alert("Redirecionando para o suporte do Tennis Link...")
+  }
+
+  const handleShareProfile = () => {
+    // Simula compartilhamento do perfil
+    if (navigator.share) {
+      navigator.share({
+        title: "Meu perfil no Tennis Link",
+        text: "Confira meu perfil no Tennis Link!",
+        url: window.location.href,
+      })
+    } else {
+      // Fallback para copiar link
+      navigator.clipboard.writeText(window.location.href)
+      alert("Link do perfil copiado para a área de transferência!")
+    }
+  }
+
   const renderTabContent = () => {
     switch (activeTab) {
       case "visao-geral":
         return (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div className="card p-3">
               <h3 className="font-bold text-base mb-3">Estatísticas Principais:</h3>
               <div className="grid grid-cols-2 gap-3 text-sm">
@@ -79,21 +100,21 @@ export default function ProfileScreen() {
               </div>
             </div>
 
-            <div className="card p-3">
-              <h3 className="font-bold text-base mb-3">Resultados Recentes:</h3>
-              <div className="space-y-2">
-                {recentMatches.slice(0, 3).map((match, index) => (
-                  <div key={index} className="glass rounded-xl p-3">
+            <div className="space-y-6">
+              <h3 className="text-lg font-bold">Atividades Recentes</h3>
+              <div className="space-y-3">
+                {recentMatches.map((match, index) => (
+                  <div key={index} className="glass rounded-xl p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="font-semibold text-sm">{match.opponent}</div>
-                        <div className="text-xs text-white/60">{match.date}</div>
+                        <div className="font-semibold text-base">{match.opponent}</div>
+                        <div className="text-sm text-white/60">{match.date}</div>
                       </div>
                       <div className="flex gap-1">
-                        {match.score.split(" ").map((score, i) => (
+                        {match.score.map((score, i) => (
                           <div
                             key={i}
-                            className="w-6 h-6 border border-tl-verde rounded flex items-center justify-center text-xs"
+                            className="w-8 h-6 border border-tl-verde rounded flex items-center justify-center text-sm font-medium"
                           >
                             {score}
                           </div>
@@ -105,16 +126,52 @@ export default function ProfileScreen() {
               </div>
             </div>
 
-            <div className="card p-3">
-              <h3 className="font-bold text-base mb-3">Eventos Recentes:</h3>
-              <div className="space-y-2">
-                {events.slice(0, 2).map((event, index) => (
-                  <div key={index} className="glass rounded-xl p-3">
-                    <div className="text-xs text-white/60 mb-1">{event.date}</div>
-                    <h4 className="font-semibold text-sm mb-1">{event.title.substring(0, 40)}...</h4>
-                    <p className="text-xs text-white/70">{event.location}</p>
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-bold">Próximos Eventos</h3>
+                <button className="text-tl-verde text-sm hover:underline">Ver todos ›</button>
+              </div>
+              <div className="space-y-4">
+                {events.map((event, index) => (
+                  <div key={index} className="glass rounded-xl p-4 space-y-2">
+                    <div className="text-sm text-white/60">{event.date}</div>
+                    <h4 className="font-bold text-base">{event.title}</h4>
+                    <p className="text-sm text-white/70">{event.location}</p>
+                    <div className="border-t border-[#F1C40F] pt-2">
+                      <p className="text-sm text-white/70">{event.details}</p>
+                    </div>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <h3 className="text-lg font-bold">Ações do Perfil</h3>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={handleContactSupport}
+                  className="glass rounded-xl p-4 flex flex-col items-center gap-2 hover:bg-white/5 transition-colors"
+                >
+                  <svg className="w-6 h-6 text-tl-ciano" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                      fill="currentColor"
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10h5v-2h-5c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8v1.43c0 .79-.71 1.57-1.5 1.57s-1.5-.78-1.5-1.57V12c0-5.52-4.48-10-10-10zm0 13c-1.66 0-3-1.34-3-3s1.34-3 3-3s3 1.34 3 3s-1.34 3-3 3z"
+                    />
+                  </svg>
+                  <span className="text-sm font-medium">Suporte</span>
+                </button>
+                <button
+                  onClick={handleShareProfile}
+                  className="glass rounded-xl p-4 flex flex-col items-center gap-2 hover:bg-white/5 transition-colors"
+                >
+                  <svg className="w-6 h-6 text-tl-verde" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                      fill="currentColor"
+                      d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81c1.66 0 3-1.34 3-3s-1.34-3-3-3s-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65c0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"
+                    />
+                  </svg>
+                  <span className="text-sm font-medium">Compartilhar</span>
+                </button>
               </div>
             </div>
           </div>
@@ -136,10 +193,10 @@ export default function ProfileScreen() {
                 <div className="flex items-center justify-between mb-2">
                   <div className="text-xs text-white/60">{match.date}</div>
                   <div className="flex gap-1">
-                    {match.score.split(" ").map((score, i) => (
+                    {match.score.map((score, i) => (
                       <div
                         key={i}
-                        className="w-6 h-6 border border-tl-verde rounded flex items-center justify-center text-xs"
+                        className="w-8 h-6 border border-tl-verde rounded flex items-center justify-center text-sm font-medium"
                       >
                         {score}
                       </div>
@@ -166,75 +223,140 @@ export default function ProfileScreen() {
         )
       case "estatisticas":
         return (
-          <div className="space-y-4">
-            <div className="text-base font-bold">Estatísticas:</div>
+          <div className="space-y-6">
+            <div className="text-lg font-bold">Estatísticas Detalhadas</div>
 
-            {/* Gráfico de vitórias/derrotas */}
-            <div className="flex justify-center">
-              <div className="relative w-40 h-40">
-                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="35" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="6" />
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="35"
-                    fill="none"
-                    stroke="var(--tl-ciano)"
-                    strokeWidth="6"
-                    strokeDasharray="130 90"
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <div className="text-lg font-bold">Vitórias/</div>
-                  <div className="text-lg font-bold">derrotas</div>
+            <div className="card p-4">
+              <h4 className="font-bold mb-4 text-center">Desempenho Geral</h4>
+              <div className="flex justify-center mb-4">
+                <div className="relative w-48 h-48">
+                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="8" />
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      fill="none"
+                      stroke="url(#winGradient)"
+                      strokeWidth="8"
+                      strokeDasharray="150.8 100.5"
+                      strokeLinecap="round"
+                      className="animate-pulse"
+                    />
+                    <defs>
+                      <linearGradient id="winGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="var(--tl-verde)" />
+                        <stop offset="50%" stopColor="var(--tl-ciano)" />
+                        <stop offset="100%" stopColor="var(--tl-azul)" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <div className="text-3xl font-bold text-tl-verde">60%</div>
+                    <div className="text-sm text-white/70">Taxa de Vitória</div>
+                  </div>
                 </div>
-                <div className="absolute top-2 right-4 text-xs">
-                  <div>Vitórias</div>
-                  <div>60%</div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="glass rounded-xl p-3 text-center">
+                  <div className="text-2xl font-bold text-tl-verde">24</div>
+                  <div className="text-sm text-white/70">Vitórias</div>
                 </div>
-                <div className="absolute bottom-2 left-4 text-xs">
-                  <div>Derrotas</div>
-                  <div>40%</div>
+                <div className="glass rounded-xl p-3 text-center">
+                  <div className="text-2xl font-bold text-red-400">16</div>
+                  <div className="text-sm text-white/70">Derrotas</div>
                 </div>
               </div>
             </div>
 
-            {/* Gráfico ATN/tempo */}
-            <div className="card p-3">
-              <h4 className="font-bold mb-3 text-sm">ATN/ tempo</h4>
-              <div className="h-24 flex items-end justify-between">
-                {[20, 100, 80, 90, 150].map((height, index) => (
-                  <div key={index} className="flex flex-col items-center">
-                    <div className="w-3 bg-tl-ciano rounded-t" style={{ height: `${(height / 200) * 100}%` }}></div>
-                    <div className="text-xs mt-1">{2023 + index}</div>
+            <div className="card p-4">
+              <h4 className="font-bold mb-4">Evolução ATN</h4>
+              <div className="h-32 flex items-end justify-between gap-2 mb-4">
+                {[
+                  { year: "2020", value: 20, color: "bg-gradient-to-t from-tl-azul to-tl-ciano" },
+                  { year: "2021", value: 100, color: "bg-gradient-to-t from-tl-ciano to-tl-verde" },
+                  { year: "2022", value: 80, color: "bg-gradient-to-t from-tl-verde to-tl-ciano" },
+                  { year: "2023", value: 90, color: "bg-gradient-to-t from-tl-ciano to-tl-azul" },
+                  { year: "2024", value: 150, color: "bg-gradient-to-t from-tl-azul to-tl-verde" },
+                ].map((item, index) => (
+                  <div key={index} className="flex flex-col items-center flex-1">
+                    <div
+                      className={`w-full ${item.color} rounded-t-lg transition-all duration-1000 hover:scale-105`}
+                      style={{ height: `${(item.value / 200) * 100}%` }}
+                    ></div>
+                    <div className="text-xs mt-2 font-medium">{item.year}</div>
+                    <div className="text-xs text-tl-ciano">{item.value}</div>
                   </div>
                 ))}
               </div>
-              <div className="text-center text-xs mt-2">Tempo</div>
             </div>
 
-            {/* Estatísticas detalhadas */}
-            <div className="card p-3">
-              <h4 className="font-bold mb-3 text-sm">Estatísticas Detalhadas</h4>
+            <div className="card p-4">
+              <h4 className="font-bold mb-4">Estatísticas Completas</h4>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="glass rounded-xl p-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-white/70">Total de jogos</span>
+                    <span className="text-lg font-bold text-tl-verde">40</span>
+                  </div>
+                </div>
+                <div className="glass rounded-xl p-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-white/70">Win Rate</span>
+                    <span className="text-lg font-bold text-tl-ciano">60%</span>
+                  </div>
+                </div>
+                <div className="glass rounded-xl p-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-white/70">Games jogados</span>
+                    <span className="text-lg font-bold text-white">248</span>
+                  </div>
+                </div>
+                <div className="glass rounded-xl p-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-white/70">Saldo de games</span>
+                    <span className="text-lg font-bold text-tl-verde">+32</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="card p-4">
+              <h4 className="font-bold mb-4">Ranking por Categoria</h4>
               <div className="space-y-3">
                 <div className="glass rounded-xl p-3">
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="flex justify-between">
-                      <span>Total de jogos:</span>
-                      <span className="text-tl-verde">40</span>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <div className="font-medium">Cidade</div>
+                      <div className="text-sm text-white/70">São José dos Campos</div>
                     </div>
-                    <div className="flex justify-between">
-                      <span>Vitórias/Derrotas:</span>
-                      <span className="text-tl-verde">24/16</span>
+                    <div className="text-right">
+                      <div className="text-xl font-bold text-tl-verde">#12</div>
+                      <div className="text-xs text-white/70">de 450</div>
                     </div>
-                    <div className="flex justify-between">
-                      <span>Games jogados:</span>
-                      <span className="text-tl-verde">248</span>
+                  </div>
+                </div>
+                <div className="glass rounded-xl p-3">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <div className="font-medium">Estado</div>
+                      <div className="text-sm text-white/70">São Paulo</div>
                     </div>
-                    <div className="flex justify-between">
-                      <span>Saldo de games:</span>
-                      <span className="text-tl-verde">+32</span>
+                    <div className="text-right">
+                      <div className="text-xl font-bold text-tl-ciano">#89</div>
+                      <div className="text-xs text-white/70">de 2.1k</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="glass rounded-xl p-3">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <div className="font-medium">Nacional</div>
+                      <div className="text-sm text-white/70">Brasil</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xl font-bold text-white">#1.2k</div>
+                      <div className="text-xs text-white/70">de 15k</div>
                     </div>
                   </div>
                 </div>
@@ -310,11 +432,23 @@ export default function ProfileScreen() {
               <p className="text-white/70 text-sm">Idade: xx • Ranking: xxxx • Sexo: xxxxxxxxx</p>
               <div className="flex gap-4 mt-2">
                 <div>
-                  <div className="text-sm font-semibold">ATN 👤</div>
+                  <div className="text-sm font-semibold flex items-center gap-1">
+                    ATN
+                    <svg className="w-4 h-4 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5m-7 9a7 7 0 0 1 14 0z" />
+                    </svg>
+                  </div>
                   <div className="text-2xl font-extrabold">XX.XX</div>
                 </div>
                 <div>
-                  <div className="text-sm font-semibold">ATN 👥</div>
+                  <div className="text-sm font-semibold flex items-center gap-1">
+                    ATN
+                     <svg className="w-4 h-4 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5m-7 9a7 7 0 0 1 14 0z" />
+                    </svg><svg className="h-4 text-blue-400 w-4 mx-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5m-7 9a7 7 0 0 1 14 0z" />
+                    </svg>
+                  </div>
                   <div className="text-2xl font-extrabold">XX.XX</div>
                 </div>
               </div>
