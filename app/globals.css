@@ -266,9 +266,11 @@
   height: calc(4rem + env(safe-area-inset-bottom));
 }
 
+/* Responsividade para dispositivos móveis */
 @media (max-width: 640px) {
   .card {
     border-radius: 1rem;
+    padding: 0.75rem;
   }
 
   .btn {
@@ -278,5 +280,206 @@
 
   .glass {
     backdrop-filter: blur(8px);
+  }
+
+  /* Ajustes específicos para mobile */
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+  }
+
+  .text-2xl {
+    font-size: 1.25rem;
+  }
+
+  .text-xl {
+    font-size: 1.125rem;
+  }
+
+  .text-lg {
+    font-size: 1rem;
+  }
+
+  /* Espaçamentos menores para mobile */
+  .p-6 {
+    padding: 1rem;
+  }
+
+  .p-4 {
+    padding: 0.75rem;
+  }
+
+  .gap-4 {
+    gap: 0.75rem;
+  }
+
+  .gap-6 {
+    gap: 1rem;
+  }
+
+  /* Ícones menores */
+  .w-12.h-12 {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .w-6.h-6 {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+/* Responsividade para tablets */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .max-w-6xl {
+    max-width: 100%;
+    padding: 0 2rem;
+  }
+
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Ajustes para tablet */
+  .card {
+    padding: 1.25rem;
+  }
+
+  .text-2xl {
+    font-size: 1.5rem;
+  }
+
+  .text-xl {
+    font-size: 1.25rem;
+  }
+}
+
+/* Responsividade para desktop */
+@media (min-width: 1025px) {
+  .max-w-6xl {
+    max-width: 72rem;
+  }
+
+  /* Layout em grid para desktop */
+  .desktop-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 2rem;
+  }
+
+  /* Cards maiores para desktop */
+  .card {
+    padding: 1.5rem;
+  }
+
+  /* Hover effects para desktop */
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Ajustes gerais de responsividade */
+@media (max-width: 768px) {
+  /* Navegação inferior responsiva */
+  .bottom-navigation {
+    padding: 0.5rem 1rem;
+  }
+
+  .bottom-navigation .nav-item {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  .bottom-navigation .nav-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  /* Modais responsivos */
+  .modal {
+    margin: 1rem;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+
+  /* Inputs responsivos */
+  input,
+  select,
+  textarea {
+    font-size: 16px; /* Previne zoom no iOS */
+  }
+
+  /* Logo responsivo */
+  .logo {
+    height: 3rem;
+  }
+}
+
+/* Ajustes para telas muito pequenas */
+@media (max-width: 375px) {
+  .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .text-sm {
+    font-size: 0.75rem;
+  }
+
+  .text-xs {
+    font-size: 0.625rem;
+  }
+
+  /* Grid responsivo para telas pequenas */
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+/* Orientação landscape para mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .modal {
+    max-height: 90vh;
+  }
+
+  .card {
+    padding: 0.75rem;
+  }
+}
+
+/* Ajustes para acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  .pulse,
+  .float,
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Dark mode específico para Tennis Link */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: var(--tl-escuro);
+    color: var(--tl-texto);
   }
 }

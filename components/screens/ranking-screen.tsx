@@ -121,7 +121,7 @@ export default function RankingScreen() {
               </div>
 
               <div className="text-right">
-                <div className="text-sm text-white/60 mb-1">Rating:</div>
+                <div className="text-sm text-white/60 mb-1">ATN:</div>
                 <div className="text-xl font-bold text-tl">{player.rating}</div>
               </div>
             </div>

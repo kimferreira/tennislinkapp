@@ -5,6 +5,15 @@ export default function ProfileScreen() {
   const [activeTab, setActiveTab] = useState("visao-geral")
   const [showUpgradeModal, setShowUpgradeModal] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState("")
+  const [showFiltersModal, setShowFiltersModal] = useState(false)
+  const [filters, setFilters] = useState({
+    ageMin: "",
+    ageMax: "",
+    atnMin: "",
+    atnMax: "",
+    location: "",
+    gender: "todos",
+  })
 
   const tabs = [
     { id: "visao-geral", label: "Visão Geral" },
@@ -73,6 +82,26 @@ export default function ProfileScreen() {
     }
   }
 
+  const handleFilterChange = (key: string, value: string) => {
+    setFilters((prev) => ({ ...prev, [key]: value }))
+  }
+
+  const clearFilters = () => {
+    setFilters({
+      ageMin: "",
+      ageMax: "",
+      atnMin: "",
+      atnMax: "",
+      location: "",
+      gender: "todos",
+    })
+  }
+
+  const applyFilters = () => {
+    console.log("Aplicando filtros:", filters)
+    setShowFiltersModal(false)
+  }
+
   const renderTabContent = () => {
     switch (activeTab) {
       case "visao-geral":
@@ -101,28 +130,71 @@ export default function ProfileScreen() {
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-lg font-bold">Atividades Recentes</h3>
+              <h3 className="text-lg font-bold">Jogos Recentes</h3>
               <div className="space-y-3">
-                {recentMatches.map((match, index) => (
-                  <div key={index} className="glass rounded-xl p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="font-semibold text-base">{match.opponent}</div>
-                        <div className="text-sm text-white/60">{match.date}</div>
+                {recentMatches.map((match, index) => {
+                  const userScore = match.score.map((s) => Number.parseInt(s))
+                  const opponentScore = index === 0 ? [4, 6, 8] : index === 1 ? [6, 4, 12] : [5, 7, 10]
+
+                  return (
+                    <div key={index} className="card p-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="text-xs text-white/60">{match.date}</div>
                       </div>
-                      <div className="flex gap-1">
-                        {match.score.map((score, i) => (
-                          <div
-                            key={i}
-                            className="w-8 h-6 border border-tl-verde rounded flex items-center justify-center text-sm font-medium"
-                          >
-                            {score}
-                          </div>
-                        ))}
+
+                      {/* Resultado do usuário */}
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs">🇧🇷</span>
+                          <span className="text-xs font-medium">Davi Campos Ranieri</span>
+                          <span className="text-yellow-500">🏆</span>
+                        </div>
+                        <div className="flex gap-1">
+                          {userScore.map((score, i) => {
+                            const userWonSet = score > opponentScore[i]
+                            return (
+                              <div
+                                key={i}
+                                className={`w-8 h-6 rounded flex items-center justify-center text-xs font-bold ${
+                                  userWonSet
+                                    ? "bg-tl-verde border border-tl-verde text-black"
+                                    : "bg-white/10 border border-white/20 text-white/60"
+                                }`}
+                              >
+                                {score}
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Resultado do oponente */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs">🇧🇷</span>
+                          <span className="text-xs font-medium">{match.opponent}</span>
+                        </div>
+                        <div className="flex gap-1">
+                          {opponentScore.map((score, i) => {
+                            const opponentWonSet = score > userScore[i]
+                            return (
+                              <div
+                                key={i}
+                                className={`w-8 h-6 rounded flex items-center justify-center text-xs font-bold ${
+                                  opponentWonSet
+                                    ? "bg-tl-verde border border-tl-verde text-black"
+                                    : "bg-white/10 border border-white/20 text-white/60"
+                                }`}
+                              >
+                                {score}
+                              </div>
+                            )
+                          })}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
 
@@ -188,37 +260,69 @@ export default function ProfileScreen() {
               </button>
             </div>
             <div className="text-xs text-white/70 mb-3">Meus Jogos:</div>
-            {recentMatches.map((match, index) => (
-              <div key={index} className="card p-3">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="text-xs text-white/60">{match.date}</div>
-                  <div className="flex gap-1">
-                    {match.score.map((score, i) => (
-                      <div
-                        key={i}
-                        className="w-8 h-6 border border-tl-verde rounded flex items-center justify-center text-sm font-medium"
-                      >
-                        {score}
-                      </div>
-                    ))}
+            {recentMatches.map((match, index) => {
+              const userScore = match.score.map((s) => Number.parseInt(s))
+              const opponentScore = index === 0 ? [4, 6, 8] : index === 1 ? [6, 4, 12] : [5, 7, 10]
+
+              return (
+                <div key={index} className="card p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-xs text-white/60">{match.date}</div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs">🇧🇷</span>
-                  <span className="text-xs font-medium">{match.opponent}</span>
-                </div>
-                <div className="border-t border-white/10 pt-2 mt-2">
-                  <div className="flex items-center justify-between text-xs text-white/60">
-                    <span>🇧🇷 {match.opponent}</span>
+
+                  {/* Resultado do usuário */}
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs">🇧🇷</span>
+                      <span className="text-xs font-medium">Davi Campos Ranieri</span>
+                      <span className="text-yellow-500">🏆</span>
+                    </div>
                     <div className="flex gap-1">
-                      <span className="text-white/40">4</span>
-                      <span className="text-white/40">6</span>
-                      <span className="text-white/40">8</span>
+                      {userScore.map((score, i) => {
+                        const userWonSet = score > opponentScore[i]
+                        return (
+                          <div
+                            key={i}
+                            className={`w-8 h-6 rounded flex items-center justify-center text-xs font-bold text-black ${
+                              userWonSet
+                                ? "bg-tl-verde border border-tl-verde text-black"
+                                : "bg-white/10 border border-white/20 text-white/60"
+                            }`}
+                          >
+                            {score}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Resultado do oponente */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs">🇧🇷</span>
+                      <span className="text-xs font-medium">{match.opponent}</span>
+                    </div>
+                    <div className="flex gap-1">
+                      {opponentScore.map((score, i) => {
+                        const opponentWonSet = score > userScore[i]
+                        return (
+                          <div
+                            key={i}
+                            className={`w-8 h-6 rounded flex items-center justify-center text-xs font-bold ${
+                              opponentWonSet
+                                ? "bg-tl-verde border border-tl-verde text-black"
+                                : "bg-white/10 border border-white/20 text-white/60"
+                            }`}
+                          >
+                            {score}
+                          </div>
+                        )
+                      })}
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         )
       case "estatisticas":
@@ -332,7 +436,6 @@ export default function ProfileScreen() {
                     </div>
                     <div className="text-right">
                       <div className="text-xl font-bold text-tl-verde">#12</div>
-                      <div className="text-xs text-white/70">de 450</div>
                     </div>
                   </div>
                 </div>
@@ -344,7 +447,6 @@ export default function ProfileScreen() {
                     </div>
                     <div className="text-right">
                       <div className="text-xl font-bold text-tl-ciano">#89</div>
-                      <div className="text-xs text-white/70">de 2.1k</div>
                     </div>
                   </div>
                 </div>
@@ -356,7 +458,6 @@ export default function ProfileScreen() {
                     </div>
                     <div className="text-right">
                       <div className="text-xl font-bold text-white">#1.2k</div>
-                      <div className="text-xs text-white/70">de 15k</div>
                     </div>
                   </div>
                 </div>
@@ -402,8 +503,16 @@ export default function ProfileScreen() {
               <div className="relative">
                 <input
                   placeholder="Procurar Adversário"
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-2 pr-10 text-sm outline-none text-tl placeholder-white/50"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-2 pr-20 text-sm outline-none text-tl placeholder-white/50"
                 />
+                <button
+                  onClick={() => setShowFiltersModal(true)}
+                  className="absolute right-10 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-4 h-4">
+                    <path fill="currentColor" d="M3 4.5h18v2H3zm3 5.5h12v2H6zm3 5.5h6v2H9z" />
+                  </svg>
+                </button>
                 <svg
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/60 w-4 h-4"
                   xmlns="http://www.w3.org/2000/svg"
@@ -443,9 +552,10 @@ export default function ProfileScreen() {
                 <div>
                   <div className="text-sm font-semibold flex items-center gap-1">
                     ATN
-                     <svg className="w-4 h-4 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                       <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5m-7 9a7 7 0 0 1 14 0z" />
-                    </svg><svg className="h-4 text-blue-400 w-4 mx-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    </svg>
+                    <svg className="h-4 text-blue-400 w-4 mx-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                       <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5m-7 9a7 7 0 0 1 14 0z" />
                     </svg>
                   </div>
@@ -541,6 +651,99 @@ export default function ProfileScreen() {
               </button>
               <button onClick={handleUpgrade} className="flex-1 btn bg-tl-verde text-black font-semibold text-sm">
                 Confirmar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showFiltersModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="card max-w-sm w-full p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold border-b-2 border-blue-500 pb-1">Filtros de Busca</h3>
+              <button onClick={() => setShowFiltersModal(false)} className="text-white/60 hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
+                  <path
+                    fill="currentColor"
+                    d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41z"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Idade</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.ageMin}
+                    onChange={(e) => handleFilterChange("ageMin", e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm outline-none text-white placeholder-white/50"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.ageMax}
+                    onChange={(e) => handleFilterChange("ageMax", e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm outline-none text-white placeholder-white/50"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">ATN</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.atnMin}
+                    onChange={(e) => handleFilterChange("atnMin", e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm outline-none text-white placeholder-white/50"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.atnMax}
+                    onChange={(e) => handleFilterChange("atnMax", e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm outline-none text-white placeholder-white/50"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Localização</label>
+                <input
+                  type="text"
+                  placeholder="Cidade, Estado"
+                  value={filters.location}
+                  onChange={(e) => handleFilterChange("location", e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm outline-none text-white placeholder-white/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Sexo</label>
+                <select
+                  value={filters.gender}
+                  onChange={(e) => handleFilterChange("gender", e.target.value)}
+                  className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm outline-none text-white bg-slate-800"
+                >
+                  <option value="todos">Todos</option>
+                  <option value="masculino">Masculino</option>
+                  <option value="feminino">Feminino</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="flex gap-3 pt-4">
+              <button onClick={clearFilters} className="flex-1 btn btn-outline text-sm">
+                Limpar
+              </button>
+              <button onClick={applyFilters} className="flex-1 btn bg-tl-verde text-black font-semibold text-sm">
+                Aplicar
               </button>
             </div>
           </div>
