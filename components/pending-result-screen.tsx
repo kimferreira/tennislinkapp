@@ -7,7 +7,6 @@ interface PendingResultScreenProps {
 }
 
 export default function PendingResultScreen({ onResultPublished }: PendingResultScreenProps) {
-  const [gameFormat, setGameFormat] = useState<"1set" | "2sets">("2sets")
   const [resultForm, setResultForm] = useState({
     set1Player1: "",
     set1Player2: "",
@@ -24,18 +23,65 @@ export default function PendingResultScreen({ onResultPublished }: PendingResult
     location: "Quadra Central",
   }
 
+  const isTiebreakEnabled = () => {
+    const set1P1 = Number.parseInt(resultForm.set1Player1) || 0
+    const set1P2 = Number.parseInt(resultForm.set1Player2) || 0
+    const set2P1 = Number.parseInt(resultForm.set2Player1) || 0
+    const set2P2 = Number.parseInt(resultForm.set2Player2) || 0
+
+    // Só habilita se um jogador ganhou o primeiro set e o outro ganhou o segundo
+    const player1WonSet1 = set1P1 > set1P2
+    const player2WonSet1 = set1P2 > set1P1
+    const player1WonSet2 = set2P1 > set2P2
+    const player2WonSet2 = set2P2 > set2P1
+
+    return (player1WonSet1 && player2WonSet2) || (player2WonSet1 && player1WonSet2)
+  }
+
+  const validateSetScore = (value: string, isPlayer1: boolean, setNumber: number) => {
+    const numValue = Number.parseInt(value) || 0
+    const otherPlayerScore =
+      setNumber === 1
+        ? Number.parseInt(isPlayer1 ? resultForm.set1Player2 : resultForm.set1Player1) || 0
+        : Number.parseInt(isPlayer1 ? resultForm.set2Player2 : resultForm.set2Player1) || 0
+
+    // Não permite 7-7
+    if (numValue === 7 && otherPlayerScore === 7) {
+      return false
+    }
+
+    return numValue <= 7
+  }
+
+  const handleSetScoreChange = (value: string, field: string) => {
+    const numValue = Number.parseInt(value) || 0
+
+    // Validação específica para cada campo
+    if (field === "set1Player1" && !validateSetScore(value, true, 1)) return
+    if (field === "set1Player2" && !validateSetScore(value, false, 1)) return
+    if (field === "set2Player1" && !validateSetScore(value, true, 2)) return
+    if (field === "set2Player2" && !validateSetScore(value, false, 2)) return
+
+    setResultForm((prev) => ({ ...prev, [field]: value }))
+  }
+
   const handleSubmitResult = () => {
     if (!resultForm.set1Player1 || !resultForm.set1Player2) {
       alert("Por favor, insira o placar do 1º set.")
       return
     }
 
-    if (gameFormat === "2sets" && (!resultForm.set2Player1 || !resultForm.set2Player2)) {
+    if (!resultForm.set2Player1 || !resultForm.set2Player2) {
       alert("Por favor, insira o placar do 2º set.")
       return
     }
 
-    console.log("Publicando resultado:", { game: pendingGame, format: gameFormat, ...resultForm })
+    if (isTiebreakEnabled() && (!resultForm.tiebreakPlayer1 || !resultForm.tiebreakPlayer2)) {
+      alert("Por favor, insira o placar do Super Tie-break.")
+      return
+    }
+
+    console.log("Publicando resultado:", { game: pendingGame, ...resultForm })
     alert("Resultado publicado com sucesso!")
     onResultPublished()
   }
@@ -77,100 +123,92 @@ export default function PendingResultScreen({ onResultPublished }: PendingResult
           </p>
         </div>
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-2">Formato do jogo</label>
-          <div className="flex gap-2">
-            <button
-              onClick={() => setGameFormat("1set")}
-              className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium ${
-                gameFormat === "1set" ? "bg-tl-verde text-black" : "bg-white/10 text-white"
-              }`}
-            >
-              1 set + tiebreak (7 pts)
-            </button>
-            <button
-              onClick={() => setGameFormat("2sets")}
-              className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium ${
-                gameFormat === "2sets" ? "bg-tl-verde text-black" : "bg-white/10 text-white"
-              }`}
-            >
-              2 sets + super tiebreak (10 pts)
-            </button>
-          </div>
-        </div>
-
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2">Placar *</label>
-            <div className="p-4 bg-white/5 rounded-lg border-2 border-white/20 space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="text-sm w-16">1º set</span>
+            <div className="p-4 bg-white/5 rounded-lg border-2 border-white/20 space-y-4">
+              {/* Header com nomes dos jogadores */}
+              <div className="grid grid-cols-4 gap-2 text-center text-xs font-medium text-white/70">
+                <div></div>
+                <div>1º set</div>
+                <div>2º set</div>
+                <div>Super Tie-break</div>
+              </div>
+
+              {/* Jogador 1 */}
+              <div className="grid grid-cols-4 gap-2 items-center">
+                <div className="text-sm font-medium">Davi Campos 1</div>
                 <input
                   type="number"
                   min="0"
                   max="7"
                   placeholder="0"
                   value={resultForm.set1Player1}
-                  onChange={(e) => setResultForm((prev) => ({ ...prev, set1Player1: e.target.value }))}
-                  className="w-12 bg-white/10 border border-white/20 rounded px-2 py-1 text-center text-sm"
+                  onChange={(e) => handleSetScoreChange(e.target.value, "set1Player1")}
+                  className="w-full bg-white/10 border border-white/20 rounded px-2 py-2 text-center text-sm"
                 />
-                <span className="text-sm">-</span>
+                <input
+                  type="number"
+                  min="0"
+                  max="7"
+                  placeholder="0"
+                  value={resultForm.set2Player1}
+                  onChange={(e) => handleSetScoreChange(e.target.value, "set2Player1")}
+                  className="w-full bg-white/10 border border-white/20 rounded px-2 py-2 text-center text-sm"
+                />
+                <input
+                  type="number"
+                  min="0"
+                  max="10"
+                  placeholder="0"
+                  value={resultForm.tiebreakPlayer1}
+                  onChange={(e) => setResultForm((prev) => ({ ...prev, tiebreakPlayer1: e.target.value }))}
+                  disabled={!isTiebreakEnabled()}
+                  className={`w-full border rounded px-2 py-2 text-center text-sm ${
+                    isTiebreakEnabled()
+                      ? "bg-white/10 border-white/20"
+                      : "bg-white/5 border-white/10 text-white/40 cursor-not-allowed"
+                  }`}
+                />
+              </div>
+
+              {/* Linha divisória */}
+              <hr className="border-white/20" />
+
+              {/* Jogador 2 */}
+              <div className="grid grid-cols-4 gap-2 items-center">
+                <div className="text-sm font-medium">Davi Campos</div>
                 <input
                   type="number"
                   min="0"
                   max="7"
                   placeholder="0"
                   value={resultForm.set1Player2}
-                  onChange={(e) => setResultForm((prev) => ({ ...prev, set1Player2: e.target.value }))}
-                  className="w-12 bg-white/10 border border-white/20 rounded px-2 py-1 text-center text-sm"
+                  onChange={(e) => handleSetScoreChange(e.target.value, "set1Player2")}
+                  className="w-full bg-white/10 border border-white/20 rounded px-2 py-2 text-center text-sm"
                 />
-              </div>
-
-              {gameFormat === "2sets" && (
-                <div className="flex items-center gap-2">
-                  <span className="text-sm w-16">2º set</span>
-                  <input
-                    type="number"
-                    min="0"
-                    max="7"
-                    placeholder="0"
-                    value={resultForm.set2Player1}
-                    onChange={(e) => setResultForm((prev) => ({ ...prev, set2Player1: e.target.value }))}
-                    className="w-12 bg-white/10 border border-white/20 rounded px-2 py-1 text-center text-sm"
-                  />
-                  <span className="text-sm">-</span>
-                  <input
-                    type="number"
-                    min="0"
-                    max="7"
-                    placeholder="0"
-                    value={resultForm.set2Player2}
-                    onChange={(e) => setResultForm((prev) => ({ ...prev, set2Player2: e.target.value }))}
-                    className="w-12 bg-white/10 border border-white/20 rounded px-2 py-1 text-center text-sm"
-                  />
-                </div>
-              )}
-
-              <div className="flex items-center gap-2">
-                <span className="text-sm w-16">{gameFormat === "1set" ? "Tie-break" : "Super tie-break"}</span>
                 <input
                   type="number"
                   min="0"
-                  max={gameFormat === "1set" ? "7" : "10"}
+                  max="7"
                   placeholder="0"
-                  value={resultForm.tiebreakPlayer1}
-                  onChange={(e) => setResultForm((prev) => ({ ...prev, tiebreakPlayer1: e.target.value }))}
-                  className="w-12 bg-white/10 border border-white/20 rounded px-2 py-1 text-center text-sm"
+                  value={resultForm.set2Player2}
+                  onChange={(e) => handleSetScoreChange(e.target.value, "set2Player2")}
+                  className="w-full bg-white/10 border border-white/20 rounded px-2 py-2 text-center text-sm"
                 />
-                <span className="text-sm">-</span>
                 <input
                   type="number"
                   min="0"
-                  max={gameFormat === "1set" ? "7" : "10"}
+                  max="10"
                   placeholder="0"
                   value={resultForm.tiebreakPlayer2}
                   onChange={(e) => setResultForm((prev) => ({ ...prev, tiebreakPlayer2: e.target.value }))}
-                  className="w-12 bg-white/10 border border-white/20 rounded px-2 py-1 text-center text-sm"
+                  disabled={!isTiebreakEnabled()}
+                  className={`w-full border rounded px-2 py-2 text-center text-sm ${
+                    isTiebreakEnabled()
+                      ? "bg-white/10 border-white/20"
+                      : "bg-white/5 border-white/10 text-white/40 cursor-not-allowed"
+                  }`}
                 />
               </div>
             </div>

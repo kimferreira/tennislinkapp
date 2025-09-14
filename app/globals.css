@@ -190,7 +190,7 @@
 
 .btn-primary {
   background: linear-gradient(90deg, var(--tl-verde), var(--tl-ciano));
-  color: #04121a;
+  color: white; /* mudando cor do texto de #04121a para white para melhor contraste */
 }
 
 .btn-outline {

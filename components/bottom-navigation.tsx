@@ -17,15 +17,6 @@ export default function BottomNavigation({ activeTab, onTabChange }: BottomNavig
       ),
     },
     {
-      id: "desafios",
-      label: "Desafios",
-      icon: (
-        <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M13 2L3 14h7v8l11-12h-7z" />
-        </svg>
-      ),
-    },
-    {
       id: "ranking",
       label: "Ranking",
       icon: <img src="/images/ranking-icon.png" alt="Ranking" className="w-5 h-5" />,
@@ -67,7 +58,7 @@ export default function BottomNavigation({ activeTab, onTabChange }: BottomNavig
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 h-16 border-t border-white/10 bg-[linear-gradient(90deg,rgba(0,99,166,.25),rgba(0,169,224,.25),rgba(0,200,187,.25))] backdrop-blur-md safe-area-inset-bottom">
-      <div className="h-full grid grid-cols-6 px-2">
+      <div className="h-full grid grid-cols-5 px-2">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id
           return (

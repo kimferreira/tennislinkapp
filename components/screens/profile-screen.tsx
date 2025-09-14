@@ -3,8 +3,6 @@ import { useState } from "react"
 
 export default function ProfileScreen() {
   const [activeTab, setActiveTab] = useState("visao-geral")
-  const [showUpgradeModal, setShowUpgradeModal] = useState(false)
-  const [selectedPlan, setSelectedPlan] = useState("")
   const [showFiltersModal, setShowFiltersModal] = useState(false)
   const [filters, setFilters] = useState({
     ageMin: "",
@@ -42,25 +40,6 @@ export default function ProfileScreen() {
       date: "25/01/2025",
     },
   ]
-
-  const plans = [
-    { id: "bronze", name: "Bronze", color: "text-orange-600", diamonds: 1, price: "R$ 19,90/mês" },
-    { id: "prata", name: "Prata", color: "text-gray-400", diamonds: 2, price: "R$ 39,90/mês" },
-    { id: "ouro", name: "Ouro", color: "text-yellow-500", diamonds: 3, price: "R$ 59,90/mês" },
-    { id: "diamante", name: "Diamante", color: "text-blue-400", diamonds: 4, price: "R$ 99,90/mês" },
-  ]
-
-  const handleUpgrade = () => {
-    if (!selectedPlan) {
-      alert("Por favor, selecione um plano.")
-      return
-    }
-
-    console.log("Fazendo upgrade para:", selectedPlan)
-    setShowUpgradeModal(false)
-    setSelectedPlan("")
-    alert("Upgrade realizado com sucesso!")
-  }
 
   const handleContactSupport = () => {
     // Simula abertura de chat de suporte ou redirecionamento
@@ -119,7 +98,7 @@ export default function ProfileScreen() {
                   <div className="text-xl font-bold text-red-400">16</div>
                 </div>
                 <div className="glass rounded-xl p-3">
-                  <div className="text-white/60 mb-1">Win Rate</div>
+                  <div className="text-white/60 mb-1">Taxa de Vitórias </div>
                   <div className="text-xl font-bold text-tl-ciano">60%</div>
                 </div>
                 <div className="glass rounded-xl p-3">
@@ -565,25 +544,6 @@ export default function ProfileScreen() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between mb-6 p-3 glass rounded-xl">
-            <div>
-              <div className="text-sm font-semibold">Meu Plano</div>
-              <div className="text-xs text-white/60">Grátis</div>
-              <div className="flex gap-1 mt-1">
-                <span className="text-white/30">♦</span>
-                <span className="text-white/30">♦</span>
-                <span className="text-white/30">♦</span>
-                <span className="text-white/30">♦</span>
-              </div>
-            </div>
-            <button
-              onClick={() => setShowUpgradeModal(true)}
-              className="btn bg-[#F1C40F] text-black text-sm px-4 py-2 rounded-full font-semibold"
-            >
-              Fazer Upgrade
-            </button>
-          </div>
-
           <div className="border-b border-white/10 flex gap-6 text-sm mt-6 overflow-x-auto">
             {tabs.map((tab) => (
               <button
@@ -599,63 +559,6 @@ export default function ProfileScreen() {
           <div className="mt-6">{renderTabContent()}</div>
         </div>
       </div>
-
-      {showUpgradeModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="card max-w-sm w-full p-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold">Escolher Plano</h3>
-              <button onClick={() => setShowUpgradeModal(false)} className="text-white/60 hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
-                  <path
-                    fill="currentColor"
-                    d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41z"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              {plans.map((plan) => (
-                <div
-                  key={plan.id}
-                  onClick={() => setSelectedPlan(plan.id)}
-                  className={`p-3 rounded-xl border cursor-pointer transition-all ${
-                    selectedPlan === plan.id
-                      ? "border-tl-verde bg-tl-verde/10"
-                      : "border-white/10 hover:border-white/20"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className={`font-semibold ${plan.color}`}>{plan.name}</div>
-                      <div className="flex gap-1 mt-1">
-                        {Array.from({ length: 4 }, (_, i) => (
-                          <span key={i} className={i < plan.diamonds ? plan.color : "text-white/30"}>
-                            ♦
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm font-semibold">{plan.price}</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex gap-3 pt-4">
-              <button onClick={() => setShowUpgradeModal(false)} className="flex-1 btn btn-outline text-sm">
-                Cancelar
-              </button>
-              <button onClick={handleUpgrade} className="flex-1 btn bg-tl-verde text-black font-semibold text-sm">
-                Confirmar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {showFiltersModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -720,7 +623,7 @@ export default function ProfileScreen() {
                   placeholder="Cidade, Estado"
                   value={filters.location}
                   onChange={(e) => handleFilterChange("location", e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm outline-none text-white placeholder-white/50"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm outline-none text-white bg-slate-800"
                 />
               </div>
 

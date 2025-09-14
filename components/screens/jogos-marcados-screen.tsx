@@ -11,14 +11,6 @@ export default function JogosMarcadosScreen() {
       status: "confirmado",
     },
     {
-      id: 2,
-      opponent: "Marina Silva",
-      date: "2024-12-19",
-      time: "16:30",
-      location: "Tennis Club",
-      status: "em_andamento",
-    },
-    {
       id: 3,
       opponent: "João Santos",
       date: "2024-12-18",
@@ -40,7 +32,7 @@ export default function JogosMarcadosScreen() {
             />
           </svg>
         </div>
-        <h1 className="text-2xl font-extrabold text-white">Jogos</h1>
+        <h1 className="text-2xl font-extrabold text-white">Meus Jogos</h1>
         <div className="ml-auto">
           <button className="bg-white/20 backdrop-blur-sm rounded-xl px-4 py-2 text-white text-sm font-medium flex items-center gap-2">
             Filtros
@@ -73,18 +65,10 @@ export default function JogosMarcadosScreen() {
                 <div className="text-right">
                   <div
                     className={`text-sm font-semibold px-2 py-1 rounded-full ${
-                      game.status === "confirmado"
-                        ? "bg-tl-verde/20 text-tl-verde"
-                        : game.status === "em_andamento"
-                          ? "bg-yellow-500/20 text-yellow-400"
-                          : "bg-gray-500/20 text-gray-400"
+                      game.status === "confirmado" ? "bg-tl-verde/20 text-tl-verde" : "bg-gray-500/20 text-gray-400"
                     }`}
                   >
-                    {game.status === "confirmado"
-                      ? "Confirmado"
-                      : game.status === "em_andamento"
-                        ? "Em Andamento"
-                        : "Finalizado"}
+                    {game.status === "confirmado" ? "Confirmado" : "Finalizado"}
                   </div>
                   {game.result && <p className="text-xs text-white/60 mt-1">Resultado: {game.result}</p>}
                 </div>

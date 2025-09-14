@@ -4,7 +4,7 @@ export default function RankingScreen() {
       position: 1,
       name: "Ana Paula Silva",
       location: "São José dos Campos, SP",
-      rating: "4.8",
+      rating: "4.25", // ATN com duas casas decimais
       points: "2450",
       medal: "🥇",
     },
@@ -12,7 +12,7 @@ export default function RankingScreen() {
       position: 2,
       name: "Carlos Eduardo Santos",
       location: "São José dos Campos, SP",
-      rating: "4.7",
+      rating: "4.25", // ATN com duas casas decimais
       points: "2380",
       medal: "🥈",
     },
@@ -20,7 +20,7 @@ export default function RankingScreen() {
       position: 3,
       name: "Mariana Costa",
       location: "São José dos Campos, SP",
-      rating: "4.6",
+      rating: "4.25", // ATN com duas casas decimais
       points: "2320",
       medal: "🥉",
     },
@@ -28,42 +28,42 @@ export default function RankingScreen() {
       position: 4,
       name: "Roberto Almeida",
       location: "São José dos Campos, SP",
-      rating: "4.5",
+      rating: "4.25", // ATN com duas casas decimais
       points: "2280",
     },
     {
       position: 5,
       name: "Fernanda Oliveira",
       location: "São José dos Campos, SP",
-      rating: "4.4",
+      rating: "4.25", // ATN com duas casas decimais
       points: "2240",
     },
     {
       position: 6,
       name: "João Silva",
       location: "São José dos Campos, SP",
-      rating: "4.3",
+      rating: "4.25", // ATN com duas casas decimais
       points: "2200",
     },
     {
       position: 7,
       name: "Maria Santos",
       location: "São José dos Campos, SP",
-      rating: "4.2",
+      rating: "4.25", // ATN com duas casas decimais
       points: "2160",
     },
     {
       position: 8,
       name: "Pedro Costa",
       location: "São José dos Campos, SP",
-      rating: "4.1",
+      rating: "4.25", // ATN com duas casas decimais
       points: "2120",
     },
     {
       position: 9,
       name: "Ana Oliveira",
       location: "São José dos Campos, SP",
-      rating: "4.0",
+      rating: "4.25", // ATN com duas casas decimais
       points: "2080",
     },
   ]
@@ -116,7 +116,6 @@ export default function RankingScreen() {
               <div className="flex-1">
                 <h3 className="font-bold text-lg text-tl">{player.name}</h3>
                 <p className="text-sm text-white/70">{player.location}</p>
-                <p className="text-sm text-white/70">Idade: xx</p>
                 <button className="text-tl-verde text-sm hover:underline mt-1">Ver mais</button>
               </div>
 

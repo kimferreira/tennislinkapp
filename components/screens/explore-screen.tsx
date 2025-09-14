@@ -204,7 +204,7 @@ export default function ExploreScreen() {
 
       <section className="mb-8">
         <h2 className="text-2xl font-extrabold mb-4">Ações Rápidas</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <div className="card p-4 text-center hover:scale-[1.02] transition-transform cursor-pointer">
             <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-tl-verde/20 flex items-center justify-center">
               <svg className="w-6 h-6 text-tl-verde" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -222,6 +222,59 @@ export default function ExploreScreen() {
             <h3 className="font-bold text-sm">Ver Ranking</h3>
             <p className="text-xs text-white/60 mt-1">Confira sua posição</p>
           </div>
+
+          <div className="card p-4 text-center hover:scale-[1.02] transition-transform cursor-pointer">
+            <div className="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center bg-foreground">
+              <svg className="w-6 h-6 text-card" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  d="M3 3v18h18v-2H5V3H3m4 12h2.5l1.5-4.5L12.5 15H15l-2.5-7h-2L8 15m8-6h3v2h-3v-2m0 4h3v2h-3v-2Z"
+                />
+              </svg>
+            </div>
+            <h3 className="font-bold text-sm">Ver Estatísticas</h3>
+            <p className="text-xs text-white/60 mt-1">Confira suas estatísticas</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="mb-8">
+        <h2 className="text-2xl font-extrabold mb-4">Convites Recebidos</h2>
+        <div className="space-y-3">
+          {[
+            {
+              name: "Ana Paula Silva",
+              location: "São Jose dos Campos, SP, Brasil",
+              atn: "4.24",
+              age: "28",
+              ranking: "1250",
+              expires: "3 dias e 12:25 horas",
+            },
+            {
+              name: "Carlos Eduardo Santos",
+              location: "São Jose dos Campos, SP, Brasil",
+              atn: "5.12",
+              age: "32",
+              ranking: "890",
+              expires: "1 dia e 8:30 horas",
+            },
+          ].map((invite, index) => (
+            <div key={index} className="card p-4 flex items-center gap-3">
+              <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-white/60" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5m-7 9a7 7 0 0 1 14 0z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h4 className="font-bold text-sm">{invite.name}</h4>
+                <p className="text-xs text-white/60 mb-1">{invite.location}</p>
+                <p className="text-xs text-white/60">
+                  ATN: {invite.atn} | Idade: {invite.age} | Ranking: {invite.ranking}
+                </p>
+                <p className="text-xs text-orange-400 mt-1">Esse convite expira em {invite.expires}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -323,6 +376,55 @@ export default function ExploreScreen() {
                     )
                   })}
                 </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-extrabold">Jogos Confirmados</h2>
+          <button className="text-sm text-tl-verde hover:underline flex items-center gap-1">
+            Ver todos <span>›</span>
+          </button>
+        </div>
+        <div className="space-y-3">
+          {[
+            {
+              opponent: "Davi Campos Ranieri",
+              date: "2024-12-20",
+              time: "14:00",
+              location: "Quadra Central",
+            },
+            {
+              opponent: "Davi Campos Ranieri",
+              date: "2024-12-20",
+              time: "14:00",
+              location: "Quadra Central",
+            },
+            {
+              opponent: "Davi Campos Ranieri",
+              date: "2024-12-20",
+              time: "14:00",
+              location: "Quadra Central",
+            },
+          ].map((game, index) => (
+            <div key={index} className="card p-4 flex items-center gap-3">
+              <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
+                <svg className="w-5 h-5 text-white/60" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5m-7 9a7 7 0 0 1 14 0z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h4 className="font-bold text-sm">{game.opponent}</h4>
+                <p className="text-xs text-white/60">
+                  {game.date} às {game.time}
+                </p>
+                <p className="text-xs text-white/60">{game.location}</p>
+              </div>
+              <div className="px-3 py-1 bg-tl-verde/20 rounded-full">
+                <span className="text-xs font-medium text-tl-verde">Confirmado</span>
               </div>
             </div>
           ))}
