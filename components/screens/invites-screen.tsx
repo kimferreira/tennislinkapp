@@ -598,17 +598,17 @@ export default function InvitesScreen() {
                     <p className="text-xs text-tl-verde">Preferências: {player.preferences}</p>
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0">
                     <button
                       onClick={() => {
                         setSelectedPlayer(player)
                         setShowInviteModal(true)
                       }}
-                      className="btn bg-tl-verde text-white text-sm px-4 py-2 rounded-full font-semibold hover:opacity-90 transition-opacity"
+                      className="btn bg-tl-verde text-white text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-full font-semibold hover:opacity-90 transition-opacity whitespace-nowrap"
                     >
                       Convidar
                     </button>
-                    <button className="btn bg-red-500 text-white text-sm px-4 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors">
+                    <button className="btn bg-red-500 text-white text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors whitespace-nowrap">
                       Remover
                     </button>
                   </div>
@@ -860,17 +860,17 @@ export default function InvitesScreen() {
                 <p className="text-xs text-tl-verde">Preferências: {player.preferences}</p>
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0">
                 <button
                   onClick={() => {
                     setSelectedPlayer(player)
                     setShowInviteModal(true)
                   }}
-                  className="bg-tl-verde text-white text-sm px-6 py-2 rounded-full font-semibold hover:opacity-90 transition-opacity"
+                  className="bg-tl-verde text-white text-xs sm:text-sm px-4 sm:px-6 py-2 rounded-full font-semibold hover:opacity-90 transition-opacity whitespace-nowrap"
                 >
                   Convidar
                 </button>
-                <button className="bg-red-500 text-white text-sm px-6 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors">
+                <button className="bg-red-500 text-white text-xs sm:text-sm px-4 sm:px-6 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors whitespace-nowrap">
                   Remover
                 </button>
               </div>
