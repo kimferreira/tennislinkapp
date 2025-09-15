@@ -625,12 +625,13 @@ export default function InvitesScreen() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6 pb-20">
-      {/* Seção Convites Enviados */}
       <div className="bg-[linear-gradient(135deg,rgba(0,99,166,.8),rgba(0,169,224,.8),rgba(0,200,187,.8))] rounded-3xl p-6 mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-              <span className="text-xl">📤</span>
+              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+              </svg>
             </div>
             <h1 className="text-white text-xl font-extrabold">Convites Enviados</h1>
           </div>
@@ -645,7 +646,7 @@ export default function InvitesScreen() {
 
       <div className="space-y-4 mb-8">
         {invitesEnviados.map((invite, index) => (
-          <div key={index} className="card p-4 shadow-soft">
+          <div key={index} className="bg-slate-800/50 rounded-2xl p-4 border border-slate-700/50">
             <div className="flex items-start gap-4">
               <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
                 <svg className="w-8 h-8 text-white/80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -654,7 +655,7 @@ export default function InvitesScreen() {
               </div>
 
               <div className="flex-1">
-                <h3 className="font-bold text-lg text-tl">{invite.name}</h3>
+                <h3 className="font-bold text-lg text-white">{invite.name}</h3>
                 <p className="text-sm text-white/70 mb-1">{invite.location}</p>
                 <p className="text-sm text-white/70 mb-1">
                   ATN: {invite.rating} | Idade: {invite.age} | Ranking: {invite.ranking}
@@ -665,11 +666,10 @@ export default function InvitesScreen() {
               </div>
 
               <div className="flex flex-col gap-2 items-end">
-                <div className="bg-tl-verde text-white text-xs px-3 py-2 rounded-full text-center min-w-[180px]">
-                  <div>Esse convite expira em</div>
-                  <div className="font-semibold">{invite.timeRemaining}</div>
+                <div className="bg-tl-verde text-white text-xs px-4 py-2 rounded-full text-center font-medium">
+                  Esse convite expira em {invite.timeRemaining}
                 </div>
-                <button className="btn bg-red-500 text-white text-sm px-4 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors">
+                <button className="bg-red-500 text-white text-sm px-6 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors">
                   Cancelar
                 </button>
               </div>
@@ -678,12 +678,13 @@ export default function InvitesScreen() {
         ))}
       </div>
 
-      {/* Seção Convites Recebidos */}
       <div className="bg-[linear-gradient(135deg,rgba(0,99,166,.8),rgba(0,169,224,.8),rgba(0,200,187,.8))] rounded-3xl p-6 mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-              <span className="text-xl">📥</span>
+              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+              </svg>
             </div>
             <h1 className="text-white text-xl font-extrabold">Convites Recebidos</h1>
           </div>
@@ -698,7 +699,7 @@ export default function InvitesScreen() {
 
       <div className="space-y-4 mb-8">
         {invitesRecebidos.map((invite, index) => (
-          <div key={index} className="card p-4 shadow-soft">
+          <div key={index} className="bg-slate-800/50 rounded-2xl p-4 border border-slate-700/50">
             <div className="flex items-start gap-4">
               <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
                 <svg className="w-8 h-8 text-white/80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -707,28 +708,36 @@ export default function InvitesScreen() {
               </div>
 
               <div className="flex-1">
-                <h3 className="font-bold text-lg text-tl">{invite.name}</h3>
+                <h3 className="font-bold text-lg text-white">{invite.name}</h3>
                 <p className="text-sm text-white/70 mb-1">{invite.location}</p>
                 <p className="text-sm text-white/70 mb-1">
                   ATN: {invite.rating} | Idade: {invite.age} | Ranking: {invite.ranking}
                 </p>
                 <p className="text-sm text-white/70 mb-1">Data e hora: {invite.date}</p>
-                <p className="text-sm text-white/70">Modo de jogo: {invite.gameMode}</p>
-                <p className="text-sm text-white/70">Local: {invite.local}</p>
-              </div>
+                <p className="text-sm text-white/70 mb-1">Modo de jogo: {invite.gameMode}</p>
+                <p className="text-sm text-white/70 mb-3">Local: {invite.local}</p>
 
-              <div className="flex flex-col gap-2 items-end">
-                <div className="bg-tl-verde text-white text-xs px-3 py-2 rounded-full text-center min-w-[180px]">
-                  <div>Esse convite expira em</div>
-                  <div className="font-semibold">{invite.timeRemaining}</div>
-                </div>
-                <div className="flex gap-2">
-                  <button className="btn bg-tl-verde text-white text-sm px-4 py-2 rounded-full font-semibold hover:bg-green-600 transition-colors">
+                <button
+                  onClick={handleConsultAvailability}
+                  className="bg-blue-600 text-white text-sm px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition-colors mb-3 w-full"
+                >
+                  Consultar Disponibilidade
+                </button>
+
+                <div className="flex gap-2 mb-3">
+                  <button className="bg-tl-verde text-white text-sm px-6 py-2 rounded-full font-semibold hover:opacity-90 transition-opacity flex-1">
                     Aceitar
                   </button>
-                  <button className="btn bg-red-500 text-white text-sm px-4 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors">
+                  <button className="bg-gray-500 text-white text-sm px-6 py-2 rounded-full font-semibold hover:bg-gray-600 transition-colors flex-1">
                     Recusar
                   </button>
+                </div>
+
+                <div className="bg-yellow-500 text-black text-xs px-3 py-2 rounded-full text-center flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z" />
+                  </svg>
+                  <span>Esse convite expira em {invite.timeRemaining}</span>
                 </div>
               </div>
             </div>
@@ -736,12 +745,13 @@ export default function InvitesScreen() {
         ))}
       </div>
 
-      {/* Seção Convites Abertos */}
       <div className="bg-[linear-gradient(135deg,rgba(0,99,166,.8),rgba(0,169,224,.8),rgba(0,200,187,.8))] rounded-3xl p-6 mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-              <span className="text-xl">🔓</span>
+              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+              </svg>
             </div>
             <h1 className="text-white text-xl font-extrabold">Convites Abertos</h1>
           </div>
@@ -752,20 +762,20 @@ export default function InvitesScreen() {
             </svg>
           </button>
         </div>
-      </div>
 
-      <div className="mb-6">
-        <button
-          onClick={() => setShowOpenInviteModal(true)}
-          className="w-full bg-tl-verde text-black font-bold py-4 px-6 rounded-2xl hover:bg-green-400 transition-colors text-lg"
-        >
-          Faça um convite aberto agora
-        </button>
+        <div className="mt-4">
+          <button
+            onClick={() => setShowOpenInviteModal(true)}
+            className="w-full bg-tl-verde text-black font-bold py-3 px-6 rounded-full hover:bg-green-400 transition-colors text-lg"
+          >
+            Faça um convite aberto agora
+          </button>
+        </div>
       </div>
 
       <div className="space-y-4 mb-8">
         {invitesAbertos.map((invite, index) => (
-          <div key={index} className="card p-4 shadow-soft">
+          <div key={index} className="bg-slate-800/50 rounded-2xl p-4 border border-slate-700/50">
             <div className="flex items-start gap-4">
               <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
                 <svg className="w-8 h-8 text-white/80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -774,36 +784,50 @@ export default function InvitesScreen() {
               </div>
 
               <div className="flex-1">
-                <h3 className="font-bold text-lg text-tl">{invite.name}</h3>
+                <h3 className="font-bold text-lg text-white">{invite.name}</h3>
                 <p className="text-sm text-white/70 mb-1">{invite.location}</p>
                 <p className="text-sm text-white/70 mb-1">
                   ATN: {invite.rating} | Idade: {invite.age} | Ranking: {invite.ranking}
                 </p>
                 <p className="text-sm text-white/70 mb-1">Data e hora: {invite.date}</p>
                 <p className="text-sm text-white/70 mb-1">Modo de jogo: {invite.gameMode}</p>
-                <p className="text-sm text-white/70">Local: {invite.local}</p>
-              </div>
+                <p className="text-sm text-white/70 mb-3">Local: {invite.local}</p>
 
-              <div className="flex flex-col gap-2 items-end">
-                <div className="bg-tl-verde text-white text-xs px-3 py-2 rounded-full text-center min-w-[180px]">
-                  <div>Esse convite expira em</div>
-                  <div className="font-semibold">{invite.timeRemaining}</div>
-                </div>
-                <button className="btn bg-tl-verde text-white text-sm px-4 py-2 rounded-full font-semibold hover:bg-green-600 transition-colors">
-                  Participar
+                <button
+                  onClick={handleConsultAvailability}
+                  className="bg-blue-600 text-white text-sm px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition-colors mb-3 w-full"
+                >
+                  Consultar Disponibilidade
                 </button>
+
+                <div className="flex gap-2 mb-3">
+                  <button className="bg-tl-verde text-white text-sm px-6 py-2 rounded-full font-semibold hover:opacity-90 transition-opacity flex-1">
+                    Aceitar
+                  </button>
+                  <button className="bg-gray-500 text-white text-sm px-6 py-2 rounded-full font-semibold hover:bg-gray-600 transition-colors flex-1">
+                    Recusar
+                  </button>
+                </div>
+
+                <div className="bg-yellow-500 text-black text-xs px-3 py-2 rounded-full text-center flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z" />
+                  </svg>
+                  <span>Esse convite expira em 3 dias e 12:25 horas</span>
+                </div>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Seção Convites Recomendados */}
       <div className="bg-[linear-gradient(135deg,rgba(0,99,166,.8),rgba(0,169,224,.8),rgba(0,200,187,.8))] rounded-3xl p-6 mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-              <span className="text-xl">⭐</span>
+              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+              </svg>
             </div>
             <h1 className="text-white text-xl font-extrabold">Convites Recomendados</h1>
           </div>
@@ -818,7 +842,7 @@ export default function InvitesScreen() {
 
       <div className="space-y-4">
         {invitesRecomendados.map((player) => (
-          <div key={player.id} className="card p-4 shadow-soft">
+          <div key={player.id} className="bg-slate-800/50 rounded-2xl p-4 border border-slate-700/50">
             <div className="flex items-start gap-4">
               <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
                 <svg className="w-8 h-8 text-white/80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -827,7 +851,7 @@ export default function InvitesScreen() {
               </div>
 
               <div className="flex-1">
-                <h3 className="font-bold text-lg text-tl">{player.name}</h3>
+                <h3 className="font-bold text-lg text-white">{player.name}</h3>
                 <p className="text-sm text-white/70 mb-1">{player.location}</p>
                 <p className="text-sm text-white/70 mb-2">
                   ATN: {player.rating} Idade: {player.age} Ranking: {player.ranking}
@@ -842,11 +866,11 @@ export default function InvitesScreen() {
                     setSelectedPlayer(player)
                     setShowInviteModal(true)
                   }}
-                  className="btn bg-tl-verde text-white text-sm px-4 py-2 rounded-full font-semibold hover:opacity-90 transition-opacity"
+                  className="bg-tl-verde text-white text-sm px-6 py-2 rounded-full font-semibold hover:opacity-90 transition-opacity"
                 >
                   Convidar
                 </button>
-                <button className="btn bg-red-500 text-white text-sm px-4 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors">
+                <button className="bg-red-500 text-white text-sm px-6 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors">
                   Remover
                 </button>
               </div>
@@ -974,6 +998,338 @@ export default function InvitesScreen() {
                     availability.differentTimes &&
                     availability.selectedDays.length > 0 && (
                       <div className="mt-4 p-4 bg-white/5 rounded-lg border border-white/10 max-h-80 overflow-y-auto">
+                        <div className="space-y-4">
+                          {availability.selectedDays.map((dayId) => {
+                            const day = daysOfWeek.find((d) => d.id === dayId)
+                            const dayTimes = availability.selectedTimes[dayId] || []
+                            return (
+                              <div key={dayId} className="border-b border-white/10 pb-3 last:border-b-0">
+                                <div className="flex items-center justify-between mb-2">
+                                  <span className="text-white text-sm font-medium">{day?.label}</span>
+                                  <button
+                                    onClick={() => addTimeToDay(dayId)}
+                                    className="text-tl-verde text-xs hover:text-tl-verde/80"
+                                  >
+                                    + Adicionar horário
+                                  </button>
+                                </div>
+
+                                {dayTimes.length === 0 ? (
+                                  <div className="text-white/60 text-xs">Nenhum horário selecionado</div>
+                                ) : (
+                                  <div className="space-y-2">
+                                    {dayTimes.map((time, index) => (
+                                      <div
+                                        key={index}
+                                        className="flex items-center justify-between bg-white/5 rounded px-2 py-1"
+                                      >
+                                        <select
+                                          value={time}
+                                          onChange={(e) => {
+                                            const newTimes = [...dayTimes]
+                                            newTimes[index] = e.target.value
+                                            setAvailability({
+                                              ...availability,
+                                              selectedTimes: {
+                                                ...availability.selectedTimes,
+                                                [dayId]: newTimes.sort(),
+                                              },
+                                            })
+                                          }}
+                                          className="bg-transparent border-none text-white text-sm focus:outline-none"
+                                        >
+                                          {timeSlots.map((timeOption) => (
+                                            <option key={timeOption} value={timeOption} className="bg-gray-800">
+                                              {timeOption}
+                                            </option>
+                                          ))}
+                                        </select>
+                                        <button
+                                          onClick={() => removeTimeFromDay(dayId, time)}
+                                          className="text-red-400 hover:text-red-300 text-xs ml-2"
+                                        >
+                                          ✕
+                                        </button>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+
+                                <div className="mt-2">
+                                  <div className="grid grid-cols-4 gap-1">
+                                    {timeSlots.map((time) => (
+                                      <button
+                                        key={time}
+                                        onClick={() => handleTimeSelection(dayId, time)}
+                                        className={`py-1 px-2 rounded text-xs transition-colors ${
+                                          dayTimes.includes(time)
+                                            ? "bg-tl-verde text-white"
+                                            : "bg-white/10 text-white/70 hover:bg-white/20"
+                                        }`}
+                                      >
+                                        {time}
+                                      </button>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                        <div className="flex gap-2 mt-4">
+                          <button
+                            onClick={() => setAvailability({ ...availability, showTimeSelection: false })}
+                            className="flex-1 bg-white/10 text-white py-2 rounded-lg text-sm"
+                          >
+                            Cancelar
+                          </button>
+                          <button
+                            onClick={() => setAvailability({ ...availability, showTimeSelection: false })}
+                            className="flex-1 bg-tl-verde text-white py-2 rounded-lg text-sm"
+                          >
+                            Confirmar
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                  {/* Seleção de horário único */}
+                  {availability.showTimeSelection && !availability.differentTimes && (
+                    <div className="mt-4 p-4 bg-white/5 rounded-lg border border-white/10">
+                      <div className="grid grid-cols-3 gap-2 mb-4">
+                        {timeSlots.map((time) => (
+                          <button
+                            key={time}
+                            onClick={() => setAvailability({ ...availability, primaryTime: time })}
+                            className={`py-2 px-3 rounded text-sm transition-colors ${
+                              availability.primaryTime === time
+                                ? "bg-tl-verde text-white"
+                                : "bg-white/10 text-white hover:bg-white/20"
+                            }`}
+                          >
+                            {time}
+                          </button>
+                        ))}
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => setAvailability({ ...availability, showTimeSelection: false })}
+                          className="flex-1 bg-white/10 text-white py-2 rounded-lg text-sm"
+                        >
+                          Cancelar
+                        </button>
+                        <button
+                          onClick={() => setAvailability({ ...availability, showTimeSelection: false })}
+                          className="flex-1 bg-tl-verde text-white py-2 rounded-lg text-sm"
+                        >
+                          Confirmar
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-white text-sm font-medium mb-2">Local</label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Ex: Quadra do Clube ABC"
+                    value={inviteForm.location}
+                    onChange={(e) => setInviteForm({ ...inviteForm, location: e.target.value })}
+                    onClick={() => setShowLocationSearch(true)}
+                    className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 pr-10 text-white text-sm"
+                    readOnly
+                  />
+                  <svg
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-tl-verde"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-white text-sm font-medium mb-2">Modo de Jogo</label>
+                <select
+                  value={inviteForm.gameMode}
+                  onChange={(e) => setInviteForm({ ...inviteForm, gameMode: e.target.value })}
+                  className="w-full border border-white/20 rounded-lg px-3 py-2 text-white text-sm bg-card-foreground"
+                >
+                  <option value="singles">Simples</option>
+                  <option value="doubles">Duplas</option>
+                </select>
+              </div>
+
+              {inviteForm.gameMode === "doubles" && (
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">Selecionar Parceiro</label>
+                  <button
+                    onClick={() => setShowPartnerSelection(true)}
+                    className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-left text-white text-sm hover:bg-white/20 transition-colors"
+                  >
+                    {inviteForm.partner ? inviteForm.partner.name : "Selecione um parceiro"}
+                  </button>
+                </div>
+              )}
+
+              <div>
+                <label className="block text-white text-sm font-medium mb-2">Convite ativo por (horas)</label>
+                <select
+                  value={inviteForm.activeHours}
+                  onChange={(e) => setInviteForm({ ...inviteForm, activeHours: Number.parseInt(e.target.value) })}
+                  className="w-full border border-white/20 rounded-lg px-3 py-2 text-white text-sm bg-card-foreground"
+                >
+                  <option value={12}>12 horas</option>
+                  <option value={18}>18 horas</option>
+                  <option value={24}>24 horas</option>
+                  <option value={36}>36 horas</option>
+                  <option value={48}>48 horas</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowInviteModal(false)}
+                className="flex-1 bg-white/10 text-white py-3 rounded-lg font-semibold hover:bg-white/20 transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleSendInvite}
+                className="flex-1 bg-tl-verde text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity"
+              >
+                Enviar Convite
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showOpenInviteModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#101a2b] rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-white">Enviar Convite</h3>
+              <button onClick={() => setShowOpenInviteModal(false)} className="text-white/60 hover:text-white">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-white text-sm font-medium mb-2">Disponibilidade</label>
+                <div className="bg-white/5 border border-white/20 rounded-lg p-4">
+                  <div className="flex gap-2 mb-3">
+                    <button
+                      onClick={() =>
+                        setAvailability({ ...availability, showDaySelection: !availability.showDaySelection })
+                      }
+                      className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm text-left"
+                    >
+                      {getSelectedDaysText()}
+                    </button>
+                    <button
+                      onClick={() =>
+                        setAvailability({ ...availability, showTimeSelection: !availability.showTimeSelection })
+                      }
+                      className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm text-left"
+                    >
+                      Às {availability.primaryTime}
+                    </button>
+                  </div>
+
+                  {availability.selectedDays.length > 0 && (
+                    <button
+                      onClick={() =>
+                        setAvailability({ ...availability, showTimeSelection: !availability.showTimeSelection })
+                      }
+                      className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm mb-3"
+                    >
+                      Selecionar mais horários
+                    </button>
+                  )}
+
+                  <label className="flex items-center gap-2 text-white text-sm">
+                    <input
+                      type="checkbox"
+                      checked={availability.differentTimes}
+                      onChange={(e) => setAvailability({ ...availability, differentTimes: e.target.checked })}
+                      className="w-4 h-4"
+                    />
+                    Horários diferentes
+                  </label>
+
+                  {availability.differentTimes && availability.selectedDays.length > 0 && (
+                    <div className="mt-3 p-3 bg-white/5 rounded-lg border border-white/10">
+                      <div className="text-white text-sm font-medium mb-2">Horários selecionados:</div>
+                      <div className="space-y-1">
+                        {availability.selectedDays.map((dayId) => {
+                          const day = daysOfWeek.find((d) => d.id === dayId)
+                          const dayTimes = availability.selectedTimes[dayId] || []
+                          return (
+                            <div key={dayId} className="flex justify-between items-center text-sm">
+                              <span className="text-white/80">{day?.label}:</span>
+                              <span className="text-tl-verde">
+                                {dayTimes.length > 0 ? dayTimes.join(", ") : "Nenhum horário"}
+                              </span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Seleção de dias */}
+                  {availability.showDaySelection && (
+                    <div className="mt-4 p-4 bg-white/5 rounded-lg border border-white/10">
+                      <div className="space-y-2">
+                        {daysOfWeek.map((day) => (
+                          <label key={day.id} className="flex items-center justify-between text-white text-sm">
+                            <span>{day.label}</span>
+                            <input
+                              type="checkbox"
+                              checked={availability.selectedDays.includes(day.id)}
+                              onChange={() => handleDayToggle(day.id)}
+                              className="w-4 h-4"
+                            />
+                          </label>
+                        ))}
+                      </div>
+                      <div className="flex gap-2 mt-4">
+                        <button
+                          onClick={() => setAvailability({ ...availability, showDaySelection: false })}
+                          className="flex-1 bg-white/10 text-white py-2 rounded-lg text-sm"
+                        >
+                          Cancelar
+                        </button>
+                        <button
+                          onClick={() => setAvailability({ ...availability, showDaySelection: false })}
+                          className="flex-1 bg-tl-verde text-white py-2 rounded-lg text-sm"
+                        >
+                          Confirmar
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Seleção de horários individuais por dia */}
+                  {availability.showTimeSelection &&
+                    availability.differentTimes &&
+                    availability.selectedDays.length > 0 && (
+                      <div className="mt-4 p-4 bg-white/5 rounded-lg border border-white/10 max-h-60 overflow-y-auto">
                         <div className="space-y-4">
                           {availability.selectedDays.map((dayId) => {
                             const day = daysOfWeek.find((d) => d.id === dayId)
