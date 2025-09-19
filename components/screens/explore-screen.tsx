@@ -11,6 +11,7 @@ export default function ExploreScreen() {
     atnMin: "",
     atnMax: "",
     gender: "",
+    category: "",
   })
 
   const isSetWon = (playerScore: number, opponentScore: number) => {
@@ -31,6 +32,13 @@ export default function ExploreScreen() {
         </div>
       )
     })
+  }
+
+  const getCategoryFromATN = (atn: number) => {
+    if (atn >= 15.0) return { code: "SS", name: "Especial / Pro" }
+    if (atn >= 10.0) return { code: "A", name: "Avançado" }
+    if (atn >= 5.0) return { code: "B", name: "Intermediário" }
+    return { code: "C", name: "Iniciante" }
   }
 
   return (
@@ -145,6 +153,21 @@ export default function ExploreScreen() {
                   <option value="F">Feminino</option>
                 </select>
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white/70 mb-2">Categoria</label>
+                <select
+                  value={filters.category}
+                  onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+                  className="w-full rounded-xl border border-white/10 py-2 px-3 text-white outline-none focus:border-tl-verde bg-slate-800"
+                >
+                  <option value="">Todas</option>
+                  <option value="SS">SS - Especial / Pro</option>
+                  <option value="A">A - Avançado</option>
+                  <option value="B">B - Intermediário</option>
+                  <option value="C">C - Iniciante</option>
+                </select>
+              </div>
             </div>
 
             <div className="flex gap-3 mt-6">
@@ -157,6 +180,7 @@ export default function ExploreScreen() {
                     atnMin: "",
                     atnMax: "",
                     gender: "",
+                    category: "",
                   })
                 }}
                 className="flex-1 py-2 px-4 rounded-xl bg-white/10 text-white font-medium hover:bg-white/20 transition-colors"
@@ -175,28 +199,39 @@ export default function ExploreScreen() {
       )}
 
       <section className="mb-6">
-        <div className="card p-4">
-          <h2 className="text-lg font-bold mb-3 text-center">Meu ATN</h2>
-          <div className="flex justify-center gap-8">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="card p-4">
+            <h2 className="text-lg font-bold mb-3 text-center">Minha Categoria</h2>
             <div className="text-center">
-              <div className="flex items-center justify-center gap-2 mb-1">
-                <div className="w-6 h-6 bg-gradient-to-r from-[#0063A6] to-[#00A9E0] rounded-full flex items-center justify-center">
-                  <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                  </svg>
-                </div>
-                <span className="text-sm font-medium text-white/70">Simples</span>
+              <div className="text-2xl font-bold text-tl-verde">
+                {getCategoryFromATN(15.2).code} - {getCategoryFromATN(15.2).name.toUpperCase()}
               </div>
-              <div className="text-2xl font-bold text-[#0063A6]">15.2</div>
             </div>
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-2 mb-1">
-                <div className="w-6 h-6 bg-gradient-to-r from-[#0063A6] to-[#00C8BB] rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm">👥</span>
+          </div>
+
+          <div className="card p-4">
+            <h2 className="text-lg font-bold mb-3 text-center">Meu ATN</h2>
+            <div className="flex justify-center gap-6">
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-2 mb-1">
+                  <div className="w-6 h-6 bg-gradient-to-r from-[#0063A6] to-[#00A9E0] rounded-full flex items-center justify-center">
+                    <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                    </svg>
+                  </div>
+                  <span className="text-sm font-medium text-white/70">Simples</span>
                 </div>
-                <span className="text-sm font-medium text-white/70">Duplas</span>
+                <div className="text-2xl font-bold text-[#0063A6]">15.2</div>
               </div>
-              <div className="text-2xl font-bold text-[#00C8BB]">14.8</div>
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-2 mb-1">
+                  <div className="w-6 h-6 bg-gradient-to-r from-[#0063A6] to-[#00C8BB] rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm">👥</span>
+                  </div>
+                  <span className="text-sm font-medium text-white/70">Duplas</span>
+                </div>
+                <div className="text-2xl font-bold text-[#00C8BB]">14.8</div>
+              </div>
             </div>
           </div>
         </div>
@@ -271,6 +306,10 @@ export default function ExploreScreen() {
                 <p className="text-xs text-white/60">
                   ATN: {invite.atn} | Idade: {invite.age} | Ranking: {invite.ranking}
                 </p>
+                <p className="text-xs text-tl-verde font-medium">
+                  {getCategoryFromATN(Number.parseFloat(invite.atn)).code} -{" "}
+                  {getCategoryFromATN(Number.parseFloat(invite.atn)).name}
+                </p>
                 <p className="text-xs text-orange-400 mt-1">Esse convite expira em {invite.expires}</p>
               </div>
             </div>
@@ -297,6 +336,10 @@ export default function ExploreScreen() {
                     </svg>
                   </div>
                   {player.atn}
+                </div>
+                <div className="text-xs text-tl-verde font-medium">
+                  {getCategoryFromATN(Number.parseFloat(player.atn)).code} -{" "}
+                  {getCategoryFromATN(Number.parseFloat(player.atn)).name}
                 </div>
               </div>
               <div className="text-right">

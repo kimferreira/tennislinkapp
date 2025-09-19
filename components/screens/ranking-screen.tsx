@@ -1,4 +1,11 @@
 export default function RankingScreen() {
+  const getCategoryFromATN = (atn: number) => {
+    if (atn >= 15.0) return { code: "SS", name: "Especial / Pro" }
+    if (atn >= 10.0) return { code: "A", name: "Avançado" }
+    if (atn >= 5.0) return { code: "B", name: "Intermediário" }
+    return { code: "C", name: "Iniciante" }
+  }
+
   const rankings = [
     {
       position: 1,
@@ -122,6 +129,10 @@ export default function RankingScreen() {
               <div className="text-right">
                 <div className="text-sm text-white/60 mb-1">ATN:</div>
                 <div className="text-xl font-bold text-tl">{player.rating}</div>
+                <div className="text-xs text-tl-verde font-medium mt-1">
+                  {getCategoryFromATN(Number.parseFloat(player.rating)).code} -{" "}
+                  {getCategoryFromATN(Number.parseFloat(player.rating)).name}
+                </div>
               </div>
             </div>
           </div>

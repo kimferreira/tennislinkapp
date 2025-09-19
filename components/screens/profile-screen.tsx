@@ -11,7 +11,15 @@ export default function ProfileScreen() {
     atnMax: "",
     location: "",
     gender: "todos",
+    category: "todas",
   })
+
+  const getCategoryFromATN = (atn: number) => {
+    if (atn >= 15.0) return { code: "SS", name: "Especial / Pro" }
+    if (atn >= 10.0) return { code: "A", name: "Avançado" }
+    if (atn >= 5.0) return { code: "B", name: "Intermediário" }
+    return { code: "C", name: "Iniciante" }
+  }
 
   const tabs = [
     { id: "visao-geral", label: "Visão Geral" },
@@ -42,12 +50,10 @@ export default function ProfileScreen() {
   ]
 
   const handleContactSupport = () => {
-    // Simula abertura de chat de suporte ou redirecionamento
     alert("Redirecionando para o suporte do Tennis Link...")
   }
 
   const handleShareProfile = () => {
-    // Simula compartilhamento do perfil
     if (navigator.share) {
       navigator.share({
         title: "Meu perfil no Tennis Link",
@@ -55,7 +61,6 @@ export default function ProfileScreen() {
         url: window.location.href,
       })
     } else {
-      // Fallback para copiar link
       navigator.clipboard.writeText(window.location.href)
       alert("Link do perfil copiado para a área de transferência!")
     }
@@ -73,6 +78,7 @@ export default function ProfileScreen() {
       atnMax: "",
       location: "",
       gender: "todos",
+      category: "todas",
     })
   }
 
@@ -518,9 +524,9 @@ export default function ProfileScreen() {
               <h1 className="text-xl font-extrabold truncate">Nome: xxxxx xxxxxxxx xxxxx</h1>
               <p className="text-white/70 text-sm">São José dos Campos, São Paulo, Brasil</p>
               <p className="text-white/70 text-sm">Idade: xx • Ranking: xxxx • Sexo: xxxxxxxxx</p>
-              <div className="flex gap-4 mt-2">
-                <div>
-                  <div className="text-sm font-semibold flex items-center gap-1">
+              <div className="flex gap-6 mt-3">
+                <div className="text-center">
+                  <div className="text-sm font-semibold flex items-center justify-center gap-1 mb-1">
                     ATN
                     <svg className="w-4 h-4 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                       <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5m-7 9a7 7 0 0 1 14 0z" />
@@ -528,8 +534,8 @@ export default function ProfileScreen() {
                   </div>
                   <div className="text-2xl font-extrabold">XX.XX</div>
                 </div>
-                <div>
-                  <div className="text-sm font-semibold flex items-center gap-1">
+                <div className="text-center">
+                  <div className="text-sm font-semibold flex items-center justify-center gap-1 mb-1">
                     ATN
                     <svg className="w-4 h-4 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                       <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5m-7 9a7 7 0 0 1 14 0z" />
@@ -539,6 +545,12 @@ export default function ProfileScreen() {
                     </svg>
                   </div>
                   <div className="text-2xl font-extrabold">XX.XX</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-sm font-semibold mb-1">Minha Categoria</div>
+                  <div className="text-lg font-bold text-tl-verde">
+                    {getCategoryFromATN(15.2).code} - {getCategoryFromATN(15.2).name.toUpperCase()}
+                  </div>
                 </div>
               </div>
             </div>
@@ -637,6 +649,21 @@ export default function ProfileScreen() {
                   <option value="todos">Todos</option>
                   <option value="masculino">Masculino</option>
                   <option value="feminino">Feminino</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Categoria</label>
+                <select
+                  value={filters.category}
+                  onChange={(e) => handleFilterChange("category", e.target.value)}
+                  className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm outline-none text-white bg-slate-800"
+                >
+                  <option value="todas">Todas</option>
+                  <option value="SS">SS - Especial / Pro</option>
+                  <option value="A">A - Avançado</option>
+                  <option value="B">B - Intermediário</option>
+                  <option value="C">C - Iniciante</option>
                 </select>
               </div>
             </div>

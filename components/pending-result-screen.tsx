@@ -53,6 +53,11 @@ export default function PendingResultScreen({ onResultPublished }: PendingResult
     return numValue <= 7
   }
 
+  const validateTiebreakScore = (value: string) => {
+    const numValue = Number.parseInt(value) || 0
+    return numValue >= 0 && numValue <= 10
+  }
+
   const handleSetScoreChange = (value: string, field: string) => {
     const numValue = Number.parseInt(value) || 0
 
@@ -63,6 +68,16 @@ export default function PendingResultScreen({ onResultPublished }: PendingResult
     if (field === "set2Player2" && !validateSetScore(value, false, 2)) return
 
     setResultForm((prev) => ({ ...prev, [field]: value }))
+  }
+
+  const handleTiebreakScoreChange = (value: string, field: string) => {
+    // Remove caracteres não numéricos
+    const cleanValue = value.replace(/[^0-9]/g, "")
+
+    // Valida se está no range 0-10
+    if (cleanValue === "" || validateTiebreakScore(cleanValue)) {
+      setResultForm((prev) => ({ ...prev, [field]: cleanValue }))
+    }
   }
 
   const handleSubmitResult = () => {
@@ -157,12 +172,12 @@ export default function PendingResultScreen({ onResultPublished }: PendingResult
                   className="w-full bg-white/10 border border-white/20 rounded px-2 py-2 text-center text-sm"
                 />
                 <input
-                  type="number"
-                  min="0"
-                  max="10"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   placeholder="0"
                   value={resultForm.tiebreakPlayer1}
-                  onChange={(e) => setResultForm((prev) => ({ ...prev, tiebreakPlayer1: e.target.value }))}
+                  onChange={(e) => handleTiebreakScoreChange(e.target.value, "tiebreakPlayer1")}
                   disabled={!isTiebreakEnabled()}
                   className={`w-full border rounded px-2 py-2 text-center text-sm ${
                     isTiebreakEnabled()
@@ -197,12 +212,12 @@ export default function PendingResultScreen({ onResultPublished }: PendingResult
                   className="w-full bg-white/10 border border-white/20 rounded px-2 py-2 text-center text-sm"
                 />
                 <input
-                  type="number"
-                  min="0"
-                  max="10"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   placeholder="0"
                   value={resultForm.tiebreakPlayer2}
-                  onChange={(e) => setResultForm((prev) => ({ ...prev, tiebreakPlayer2: e.target.value }))}
+                  onChange={(e) => handleTiebreakScoreChange(e.target.value, "tiebreakPlayer2")}
                   disabled={!isTiebreakEnabled()}
                   className={`w-full border rounded px-2 py-2 text-center text-sm ${
                     isTiebreakEnabled()
